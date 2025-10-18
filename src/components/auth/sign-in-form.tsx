@@ -19,7 +19,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { z as zod } from 'zod';
 
 import { paths } from '@/paths';
-import { authClient } from '@/lib/auth/client';
+import { adminLogin } from '@/lib/api/adminAuthService';
 import { useUser } from '@/hooks/use-user';
 
 const schema = zod.object({
@@ -33,11 +33,10 @@ const defaultValues = { email: 'sofia@devias.io', password: 'Secret1' } satisfie
 
 export function SignInForm(): React.JSX.Element {
   const router = useRouter();
-
-  const { checkSession } = useUser();
+  // ✅ LẤY từ context ở top-level component (KHÔNG trong callback)
+  const { checkSession, setUser } = useUser();
 
   const [showPassword, setShowPassword] = React.useState<boolean>();
-
   const [isPending, setIsPending] = React.useState<boolean>(false);
 
   const {
@@ -50,23 +49,43 @@ export function SignInForm(): React.JSX.Element {
   const onSubmit = React.useCallback(
     async (values: Values): Promise<void> => {
       setIsPending(true);
+      setError('root', { type: 'server', message: '' }); // reset lỗi cũ
 
-      const { error } = await authClient.signInWithPassword(values);
+      try {
+        const result = await adminLogin({
+          email: values.email,
+          password: values.password,
+          requiredRole: 'Admin',
+        });
 
-      if (error) {
-        setError('root', { type: 'server', message: error });
+        // Lưu token vào localStorage
+        localStorage.setItem('accessToken', result.accessToken);
+        if (result.refreshToken) {
+          localStorage.setItem('refreshToken', result.refreshToken);
+        }
+
+        // Nếu có setUser exposed, gán tạm user (BE chưa có /me)
+        setUser?.({
+          id: 'admin',
+          email: values.email,
+          firstName: 'Admin',
+          lastName: 'User',
+        } as any);
+
+        // nếu bạn có checkSession để gọi BE /me (khi BE sẵn sàng) uncomment:
+        // await checkSession?.();
+
+        // Chuyển hướng đến dashboard
+        router.push('/dashboard');
+      } catch (err: any) {
+        console.error('Login error:', err);
+        const msg = err?.response?.data?.message || err?.message || 'Login failed. Please try again.';
+        setError('root', { type: 'server', message: msg });
+      } finally {
         setIsPending(false);
-        return;
       }
-
-      // Refresh the auth state
-      await checkSession?.();
-
-      // UserProvider, for this case, will not refresh the router
-      // After refresh, GuestGuard will handle the redirect
-      router.refresh();
     },
-    [checkSession, router, setError]
+    [router, setError, checkSession, setUser]
   );
 
   return (

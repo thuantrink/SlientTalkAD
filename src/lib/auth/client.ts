@@ -1,96 +1,67 @@
 'use client';
 
+import axios from 'axios';
 import type { User } from '@/types/user';
 
-function generateToken(): string {
-  const arr = new Uint8Array(12);
-  globalThis.crypto.getRandomValues(arr);
-  return Array.from(arr, (v) => v.toString(16).padStart(2, '0')).join('');
-}
-
-const user = {
-  id: 'USR-000',
-  avatar: '/assets/avatar.png',
-  firstName: 'Sofia',
-  lastName: 'Rivers',
-  email: 'sofia@devias.io',
-} satisfies User;
-
-export interface SignUpParams {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-}
-
-export interface SignInWithOAuthParams {
-  provider: 'google' | 'discord';
-}
+const API_ROOT =
+  process.env.NEXT_PUBLIC_API_ROOT ||
+  'https://transphysical-charlotte-doomfully.ngrok-free.dev';
 
 export interface SignInWithPasswordParams {
   email: string;
   password: string;
 }
 
-export interface ResetPasswordParams {
-  email: string;
-}
-
-class AuthClient {
-  async signUp(_: SignUpParams): Promise<{ error?: string }> {
-    // Make API request
-
-    // We do not handle the API, so we'll just generate a token and store it in localStorage.
-    const token = generateToken();
-    localStorage.setItem('custom-auth-token', token);
-
-    return {};
-  }
-
-  async signInWithOAuth(_: SignInWithOAuthParams): Promise<{ error?: string }> {
-    return { error: 'Social authentication not implemented' };
-  }
-
+export class AuthClient {
   async signInWithPassword(params: SignInWithPasswordParams): Promise<{ error?: string }> {
-    const { email, password } = params;
+    try {
+      const res = await axios.post(`${API_ROOT}/api/admin/auth/login`, {
+        email: params.email,
+        password: params.password,
+      });
 
-    // Make API request
+      // ✅ lưu token vào localStorage
+      const { accessToken, refreshToken } = res.data;
+      if (accessToken) {
+        localStorage.setItem('accessToken', accessToken);
+      }
+      if (refreshToken) {
+        localStorage.setItem('refreshToken', refreshToken);
+      }
 
-    // We do not handle the API, so we'll check if the credentials match with the hardcoded ones.
-    if (email !== 'sofia@devias.io' || password !== 'Secret1') {
-      return { error: 'Invalid credentials' };
+      return {};
+    } catch (err: any) {
+      console.error('Login error:', err);
+      return { error: err.response?.data?.message || 'Login failed' };
     }
-
-    const token = generateToken();
-    localStorage.setItem('custom-auth-token', token);
-
-    return {};
-  }
-
-  async resetPassword(_: ResetPasswordParams): Promise<{ error?: string }> {
-    return { error: 'Password reset not implemented' };
-  }
-
-  async updatePassword(_: ResetPasswordParams): Promise<{ error?: string }> {
-    return { error: 'Update reset not implemented' };
   }
 
   async getUser(): Promise<{ data?: User | null; error?: string }> {
-    // Make API request
+    try {
+      const token = localStorage.getItem('accessToken');
+      if (!token) return { data: null };
 
-    // We do not handle the API, so just check if we have a token in localStorage.
-    const token = localStorage.getItem('custom-auth-token');
+      const res = await axios.get(`${API_ROOT}/api/admin/auth/me`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
 
-    if (!token) {
-      return { data: null };
+      return { data: res.data };
+    } catch (err: any) {
+      console.error('GetUser error:', err);
+      return { data: null, error: err.response?.data?.message || 'Unauthorized' };
     }
-
-    return { data: user };
   }
 
   async signOut(): Promise<{ error?: string }> {
-    localStorage.removeItem('custom-auth-token');
-
+    try {
+      const token = localStorage.getItem('refreshToken');
+      await axios.post(`${API_ROOT}/api/admin/auth/revoke`, token ? { refreshToken: token } : {});
+    } catch {
+      // ignore
+    } finally {
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
+    }
     return {};
   }
 }
