@@ -13,7 +13,7 @@ export interface AuthGuardProps {
 
 export function AuthGuard({ children }: AuthGuardProps): React.JSX.Element | null {
   const router = useRouter();
-  const { user, error, isLoading } = useUser();
+  /* const { user, error, isLoading } = useUser();
 
   React.useEffect(() => {
     if (isLoading) return;
@@ -25,7 +25,7 @@ export function AuthGuard({ children }: AuthGuardProps): React.JSX.Element | nul
 
   if (isLoading) return null;
   if (error) return <Alert color="error">{error}</Alert>;
-  if (!user) return null;
+  if (!user) return null; */
 
   return <>{children}</>;
 }

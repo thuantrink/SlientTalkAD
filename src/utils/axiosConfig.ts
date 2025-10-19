@@ -1,21 +1,26 @@
 // src/utils/axiosConfig.ts
 import axios from "axios";
 
-// axiosConfig.ts (Next.js)
-const API_ROOT = process.env.NEXT_PUBLIC_API_ROOT || "https://transphysical-charlotte-doomfully.ngrok-free.dev";
+const API_ROOT =
+  process.env.NEXT_PUBLIC_API_ROOT ||
+  "https://transphysical-charlotte-doomfully.ngrok-free.dev"; // ngrok URL của bạn
 
-const instance = axios.create({
+const api = axios.create({
   baseURL: API_ROOT,
-  withCredentials: false // nếu BE dùng cookie cho refresh => true
+  headers: { "Content-Type": "application/json" },
+  withCredentials: false, // BE không set cookie => false
 });
 
-// request interceptor: attach access token
-instance.interceptors.request.use((config) => {
-  const token = localStorage.getItem("adminAccessToken");
+// 🧠 Gắn accessToken (đã lưu ở localStorage)
+api.interceptors.request.use((config) => {
+  const token =
+    typeof window !== "undefined"
+      ? localStorage.getItem("accessToken") // phải trùng key
+      : null;
   if (token && config.headers) {
     config.headers.Authorization = `Bearer ${token}`;
   }
   return config;
 });
 
-export default instance;
+export default api;

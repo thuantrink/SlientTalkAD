@@ -72,10 +72,6 @@ export function SignInForm(): React.JSX.Element {
           lastName: 'User',
         } as any);
 
-        // nếu bạn có checkSession để gọi BE /me (khi BE sẵn sàng) uncomment:
-        // await checkSession?.();
-
-        // Chuyển hướng đến dashboard
         router.push('/dashboard');
       } catch (err: any) {
         console.error('Login error:', err);
@@ -147,7 +143,9 @@ export function SignInForm(): React.JSX.Element {
             )}
           />
           <div>
-            <Link component={RouterLink} href={paths.auth.resetPassword} variant="subtitle2">
+            <Link component={RouterLink} 
+            href={paths.auth.resetPassword} 
+            variant="subtitle2">
               Forgot password?
             </Link>
           </div>
