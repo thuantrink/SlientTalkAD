@@ -64,6 +64,26 @@ export class AuthClient {
     }
     return {};
   }
+
+  async signUp(values: { name?: string; email: string; password: string }): Promise<{ error?: string }> {
+    try {
+      await axios.post(`${API_ROOT}/api/admin/auth/register`, values);
+      return {};
+    } catch (err: any) {
+      console.error('SignUp error:', err);
+      return { error: err.response?.data?.message || 'Sign up failed' };
+    }
+  }
+
+  async resetPassword(values: { email: string }): Promise<{ error?: string }> {
+    try {
+      await axios.post(`${API_ROOT}/api/admin/auth/reset-password`, values);
+      return {};
+    } catch (err: any) {
+      console.error('ResetPassword error:', err);
+      return { error: err.response?.data?.message || 'Reset password failed' };
+    }
+  }
 }
 
 export const authClient = new AuthClient();
