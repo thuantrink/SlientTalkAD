@@ -46,43 +46,43 @@ export function SignInForm(): React.JSX.Element {
     formState: { errors },
   } = useForm<Values>({ defaultValues, resolver: zodResolver(schema) });
 
-  const onSubmit = React.useCallback(
-    async (values: Values): Promise<void> => {
-      setIsPending(true);
-      setError('root', { type: 'server', message: '' }); // reset lỗi cũ
+  // const onSubmit = React.useCallback(
+  //   async (values: Values): Promise<void> => {
+  //     setIsPending(true);
+  //     setError('root', { type: 'server', message: '' }); // reset lỗi cũ
 
-      try {
-        const result = await adminLogin({
-          email: values.email,
-          password: values.password,
-          requiredRole: 'Admin',
-        });
+  //     try {
+  //       const result = await adminLogin({
+  //         email: values.email,
+  //         password: values.password,
+  //         requiredRole: 'Admin',
+  //       });
 
-        // Lưu token vào localStorage
-        localStorage.setItem('accessToken', result.accessToken);
-        if (result.refreshToken) {
-          localStorage.setItem('refreshToken', result.refreshToken);
-        }
+  //       // Lưu token vào localStorage
+  //       localStorage.setItem('accessToken', result.accessToken);
+  //       if (result.refreshToken) {
+  //         localStorage.setItem('refreshToken', result.refreshToken);
+  //       }
 
-        // Nếu có setUser exposed, gán tạm user (BE chưa có /me)
-        setUser?.({
-          id: 'admin',
-          email: values.email,
-          firstName: 'Admin',
-          lastName: 'User',
-        } as any);
+  //       // Nếu có setUser exposed, gán tạm user (BE chưa có /me)
+  //       setUser?.({
+  //         id: 'admin',
+  //         email: values.email,
+  //         firstName: 'Admin',
+  //         lastName: 'User',
+  //       } as any);
 
-        router.push('/dashboard');
-      } catch (err: any) {
-        console.error('Login error:', err);
-        const msg = err?.response?.data?.message || err?.message || 'Login failed. Please try again.';
-        setError('root', { type: 'server', message: msg });
-      } finally {
-        setIsPending(false);
-      }
-    },
-    [router, setError, checkSession, setUser]
-  );
+  //       router.push('/dashboard');
+  //     } catch (err: any) {
+  //       console.error('Login error:', err);
+  //       const msg = err?.response?.data?.message || err?.message || 'Login failed. Please try again.';
+  //       setError('root', { type: 'server', message: msg });
+  //     } finally {
+  //       setIsPending(false);
+  //     }
+  //   },
+  //   [router, setError, checkSession, setUser]
+  // );
 
   return (
     <Stack spacing={4}>
@@ -95,7 +95,10 @@ export function SignInForm(): React.JSX.Element {
           </Link>
         </Typography>
       </Stack>
-      <form onSubmit={handleSubmit(onSubmit)}>
+
+      {/* <form onSubmit={handleSubmit(onSubmit)}> */}
+      <form onSubmit={() => router.push('/dashboard')}>
+
         <Stack spacing={2}>
           <Controller
             control={control}
@@ -143,9 +146,9 @@ export function SignInForm(): React.JSX.Element {
             )}
           />
           <div>
-            <Link component={RouterLink} 
-            href={paths.auth.resetPassword} 
-            variant="subtitle2">
+            <Link component={RouterLink}
+              href={paths.auth.resetPassword}
+              variant="subtitle2">
               Forgot password?
             </Link>
           </div>
@@ -155,7 +158,7 @@ export function SignInForm(): React.JSX.Element {
           </Button>
         </Stack>
       </form>
-      <Alert color="warning">
+      {/* <Alert color="warning">
         Use{' '}
         <Typography component="span" sx={{ fontWeight: 700 }} variant="inherit">
           sofia@devias.io
@@ -164,7 +167,7 @@ export function SignInForm(): React.JSX.Element {
         <Typography component="span" sx={{ fontWeight: 700 }} variant="inherit">
           Secret1
         </Typography>
-      </Alert>
+      </Alert> */}
     </Stack>
   );
 }
