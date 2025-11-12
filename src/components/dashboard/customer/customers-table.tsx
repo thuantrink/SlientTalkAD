@@ -1,10 +1,10 @@
 'use client';
 
 import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
+// Avatar hidden in list; show only on detail page
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
-import Checkbox from '@mui/material/Checkbox';
+// import Checkbox from '@mui/material/Checkbox';
 import Divider from '@mui/material/Divider';
 import Stack from '@mui/material/Stack';
 import Table from '@mui/material/Table';
@@ -14,6 +14,8 @@ import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import Link from 'next/link';
 import dayjs from 'dayjs';
 
 import { useSelection } from '@/hooks/use-selection';
@@ -60,6 +62,7 @@ export function CustomersTable({
         <Table sx={{ minWidth: '800px' }}>
           <TableHead>
             <TableRow>
+              {/*
               <TableCell padding="checkbox">
                 <Checkbox
                   checked={selectedAll}
@@ -73,11 +76,11 @@ export function CustomersTable({
                   }}
                 />
               </TableCell>
-              <TableCell>Name</TableCell>
+              */}
+              <TableCell>Tên</TableCell>
               <TableCell>Email</TableCell>
-              <TableCell>Location</TableCell>
-              <TableCell>Phone</TableCell>
-              <TableCell>Signed Up</TableCell>
+              <TableCell>Số điện thoại</TableCell>
+              <TableCell align="right">Thao tác</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -86,6 +89,7 @@ export function CustomersTable({
 
               return (
                 <TableRow hover key={row.id} selected={isSelected}>
+                  {/*
                   <TableCell padding="checkbox">
                     <Checkbox
                       checked={isSelected}
@@ -98,18 +102,19 @@ export function CustomersTable({
                       }}
                     />
                   </TableCell>
+                  */}
                   <TableCell>
-                    <Stack sx={{ alignItems: 'center' }} direction="row" spacing={2}>
-                      <Avatar src={row.avatar} />
+                    <Link href={`/dashboard/customers/${row.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                       <Typography variant="subtitle2">{row.name}</Typography>
-                    </Stack>
+                    </Link>
                   </TableCell>
                   <TableCell>{row.email}</TableCell>
-                  <TableCell>
-                    {row.address.city}, {row.address.state}, {row.address.country}
-                  </TableCell>
                   <TableCell>{row.phone}</TableCell>
-                  <TableCell>{dayjs(row.createdAt).format('MMM D, YYYY')}</TableCell>
+                  <TableCell align="right">
+                    <Link href={`/dashboard/customers/${row.id}`}>
+                      <Button variant="outlined" size="small">Chi tiết</Button>
+                    </Link>
+                  </TableCell>
                 </TableRow>
               );
             })}
