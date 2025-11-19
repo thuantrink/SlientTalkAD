@@ -72,7 +72,8 @@ export function SignwordsTable({
   return (
     <Card>
       <Box sx={{ overflowX: 'auto' }}>
-        <Table sx={{ minWidth: '1200px' }}>
+        {/* <Table sx={{ minWidth: '1200px' }}> */}
+        <Table sx={{ minWidth: '100%' }}>
           <TableHead>
             <TableRow>
               <TableCell padding="checkbox" sx={{ width: 60 }}>

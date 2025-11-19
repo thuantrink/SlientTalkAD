@@ -18,7 +18,7 @@ export const metadata = { title: `Overview | Dashboard | ${config.site.name}` } 
 export default function Page(): React.JSX.Element {
   return (
     <Grid container spacing={3}>
-      <Grid
+      {/* <Grid
         size={{
           lg: 3,
           sm: 6,
@@ -26,7 +26,7 @@ export default function Page(): React.JSX.Element {
         }}
       >
         <Budget diff={12} trend="up" sx={{ height: '100%' }} value="$24k" />
-      </Grid>
+      </Grid> */}
       <Grid
         size={{
           lg: 3,

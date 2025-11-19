@@ -19,55 +19,52 @@ export function SideNav(): React.JSX.Element {
   return (
     <Box
       sx={{
-  '--SideNav-color': 'var(--mui-palette-common-white)',
-  '--NavItem-color': 'rgba(255, 255, 255, 0.9)',
-  '--NavItem-hover-background': 'rgba(255, 255, 255, 0.1)',
-  '--NavItem-active-background': 'rgba(255, 255, 255, 0.2)',
-  '--NavItem-active-color': '#fff',
-  '--NavItem-disabled-color': 'rgba(255, 255, 255, 0.4)',
-  '--NavItem-icon-color': 'rgba(255, 255, 255, 0.85)',
-  '--NavItem-icon-active-color': '#fff',
-  '--NavItem-icon-disabled-color': 'rgba(255, 255, 255, 0.4)',
+        '--SideNav-color': 'var(--mui-palette-common-white)',
+        '--NavItem-color': 'rgba(255, 255, 255, 0.9)',
+        '--NavItem-hover-background': 'rgba(255, 255, 255, 0.1)',
+        '--NavItem-active-background': 'rgba(255, 255, 255, 0.2)',
+        '--NavItem-active-color': '#fff',
+        '--NavItem-disabled-color': 'rgba(255, 255, 255, 0.4)',
+        '--NavItem-icon-color': 'rgba(255, 255, 255, 0.85)',
+        '--NavItem-icon-active-color': '#fff',
+        '--NavItem-icon-disabled-color': 'rgba(255, 255, 255, 0.4)',
 
-  /*
-    🌤️ Hai nguồn sáng trắng nhỏ gọn ở góc trên trái & phải.
-    → Màu trắng tinh khiết (white) rõ nét hơn.
-    → Nền đậm nhất là #2877ED, có nhấn #09A3FB xen kẽ.
-  */
-  backgroundImage: `
-    /* 1️⃣ White light top-left (nhỏ hơn, thu hẹp vùng sáng) */
-    radial-gradient(circle at 5% 5%, white 0%, rgba(255,255,255,0.9) 15%, transparent 40%),
+        /*
+          🌤️ Hai nguồn sáng trắng nhỏ gọn ở góc trên trái & phải.
+          → Màu trắng tinh khiết (white) rõ nét hơn.
+          → Nền đậm nhất là #2877ED, có nhấn #09A3FB xen kẽ.
+        */
+        backgroundImage: `
+    // /* 1️⃣ White light top-left (nhỏ hơn, thu hẹp vùng sáng) */
+    // radial-gradient(circle at 5% 5%, white 0%, rgba(255,255,255,0.9) 15%, transparent 40%),
 
-    /* 2️⃣ White light top-right (nhỏ hơn, thu hẹp vùng sáng) */
-    radial-gradient(circle at 95% 5%, white 0%, rgba(255,255,255,0.9) 15%, transparent 40%),
+    // /* 2️⃣ White light top-right (nhỏ hơn, thu hẹp vùng sáng) */
+    // radial-gradient(circle at 95% 5%, white 0%, rgba(255,255,255,0.9) 15%, transparent 40%),
 
-    /* 3️⃣ Accents #09A3FB giúp hiệu ứng sống động hơn */
-    radial-gradient(circle at 30% 35%, rgba(9,163,251,0.55), transparent 22%),
-    radial-gradient(circle at 70% 45%, rgba(9,163,251,0.42), transparent 22%),
+    // /* 3️⃣ Accents #09A3FB giúp hiệu ứng sống động hơn */
+    // radial-gradient(circle at 30% 35%, rgba(9,163,251,0.55), transparent 22%),
+    // radial-gradient(circle at 70% 45%, rgba(9,163,251,0.42), transparent 22%),
 
     /* 4️⃣ Base gradient (đậm nhất #2877ED) */
     linear-gradient(145deg, #09A3FB 15%, #09A3FB 30%, #2877ED 100%)
   `,
-  backgroundRepeat: 'no-repeat',
-  backgroundSize: 'cover',
-  backgroundBlendMode: 'screen',
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'cover',
+        backgroundBlendMode: 'screen',
 
-  color: 'var(--SideNav-color)',
-  display: { xs: 'none', lg: 'flex' },
-  flexDirection: 'column',
-  height: '100%',
-  left: 0,
-  position: 'fixed',
-  overflowY: 'auto',
-  scrollbarWidth: 'none',
-  top: 0,
-  width: 'var(--SideNav-width)',
-  zIndex: 'var(--SideNav-zIndex)',
-  '&::-webkit-scrollbar': { display: 'none' },
-}}
-
-
-
+        color: 'var(--SideNav-color)',
+        display: { xs: 'none', lg: 'flex' },
+        flexDirection: 'column',
+        height: '100%',
+        left: 0,
+        position: 'fixed',
+        overflowY: 'auto',
+        scrollbarWidth: 'none',
+        top: 0,
+        width: 'var(--SideNav-width)',
+        zIndex: 'var(--SideNav-zIndex)',
+        '&::-webkit-scrollbar': { display: 'none' },
+      }}
     >
       {/* 🔹 Header: Logo + Silen Talk */}
       <Stack spacing={2} sx={{ p: 3, pl: 4, pr: 2 }}>
@@ -84,35 +81,35 @@ export function SideNav(): React.JSX.Element {
         >
           <Box
             component="img"
-            src="/assets/group-R5.svg"
+            // src="/assets/group-R5.svg"
+            src="/assets/logo.svg"
             alt="Logo"
             sx={{
-              height: 52,
+              height: 42,
               width: 'auto',
             }}
           />
-          <Typography
+          {/* <Typography
             sx={{
               fontFamily: `'Open Sans', sans-serif`,
               fontWeight: 600,
               fontSize: '1.7rem',
-              color: '#2877ED', // 🎨 Màu chữ Silen Talk
+              // color: '#2877ED',
+              color: 'white',
               textDecoration: 'none',
               letterSpacing: 0.4,
             }}
           >
             SilenTalk
-          </Typography>
+          </Typography> */}
         </Box>
       </Stack>
-
-      {/* 🔹 Nav Items – căn giữa dọc */}
       <Box
         component="nav"
         sx={{
           flex: '1 1 auto',
           display: 'flex',
-          alignItems: 'center',
+          alignItems: 'flex-start',
           justifyContent: 'center',
           p: '12px',
           position: 'relative',
@@ -171,11 +168,11 @@ function NavItem({
       <Box
         {...(href
           ? {
-              component: external ? 'a' : RouterLink,
-              href,
-              target: external ? '_blank' : undefined,
-              rel: external ? 'noreferrer' : undefined,
-            }
+            component: external ? 'a' : RouterLink,
+            href,
+            target: external ? '_blank' : undefined,
+            rel: external ? 'noreferrer' : undefined,
+          }
           : { role: 'button' })}
         sx={{
           alignItems: 'center',
