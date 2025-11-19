@@ -35,15 +35,15 @@ export function SideNav(): React.JSX.Element {
     → Nền đậm nhất là #2877ED, có nhấn #09A3FB xen kẽ.
   */
   backgroundImage: `
-    /* 1️⃣ White light top-left (nhỏ hơn, thu hẹp vùng sáng) */
-    radial-gradient(circle at 5% 5%, white 0%, rgba(255,255,255,0.9) 15%, transparent 40%),
+    // /* 1️⃣ White light top-left (nhỏ hơn, thu hẹp vùng sáng) */
+    // radial-gradient(circle at 5% 5%, white 0%, rgba(255,255,255,0.9) 15%, transparent 40%),
 
-    /* 2️⃣ White light top-right (nhỏ hơn, thu hẹp vùng sáng) */
-    radial-gradient(circle at 95% 5%, white 0%, rgba(255,255,255,0.9) 15%, transparent 40%),
+    // /* 2️⃣ White light top-right (nhỏ hơn, thu hẹp vùng sáng) */
+    // radial-gradient(circle at 95% 5%, white 0%, rgba(255,255,255,0.9) 15%, transparent 40%),
 
-    /* 3️⃣ Accents #09A3FB giúp hiệu ứng sống động hơn */
-    radial-gradient(circle at 30% 35%, rgba(9,163,251,0.55), transparent 22%),
-    radial-gradient(circle at 70% 45%, rgba(9,163,251,0.42), transparent 22%),
+    // /* 3️⃣ Accents #09A3FB giúp hiệu ứng sống động hơn */
+    // radial-gradient(circle at 30% 35%, rgba(9,163,251,0.55), transparent 22%),
+    // radial-gradient(circle at 70% 45%, rgba(9,163,251,0.42), transparent 22%),
 
     /* 4️⃣ Base gradient (đậm nhất #2877ED) */
     linear-gradient(145deg, #09A3FB 15%, #09A3FB 30%, #2877ED 100%)
@@ -84,10 +84,10 @@ export function SideNav(): React.JSX.Element {
         >
           <Box
             component="img"
-            src="/assets/group-R5.svg"
+            src="/assets/logo.svg"
             alt="Logo"
             sx={{
-              height: 52,
+              height: 42,
               width: 'auto',
             }}
           />
@@ -101,7 +101,7 @@ export function SideNav(): React.JSX.Element {
               letterSpacing: 0.4,
             }}
           >
-            SilenTalk
+            
           </Typography>
         </Box>
       </Stack>
@@ -112,7 +112,7 @@ export function SideNav(): React.JSX.Element {
         sx={{
           flex: '1 1 auto',
           display: 'flex',
-          alignItems: 'center',
+          alignItems: 'flex-start',
           justifyContent: 'center',
           p: '12px',
           position: 'relative',

@@ -5,7 +5,7 @@ import type { User } from '@/types/user';
 
 const API_ROOT =
   process.env.NEXT_PUBLIC_API_ROOT ||
-  'https://transphysical-charlotte-doomfully.ngrok-free.dev';
+  'https://api20251116200831-djh7b7e4dseec6a4.southeastasia-01.azurewebsites.net';
 
 export interface SignInWithPasswordParams {
   email: string;
