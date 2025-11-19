@@ -1,10 +1,9 @@
 'use client';
 
 import * as React from 'react';
-// Avatar hidden in list; show only on detail page
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
-// import Checkbox from '@mui/material/Checkbox';
+import Checkbox from '@mui/material/Checkbox';
 import Divider from '@mui/material/Divider';
 import Stack from '@mui/material/Stack';
 import Table from '@mui/material/Table';
@@ -24,31 +23,37 @@ function noop(): void {
   // do nothing
 }
 
-export interface Customer {
+export interface Payment {
   id: string;
-  avatar: string;
-  name: string;
   email: string;
-  address: { city: string; state: string; country: string; street: string };
+  name: string;
   phone: string;
-  createdAt: Date;
+  paymentId: string;
+  userPlanId: string;
+  amount: number;
+  currency: string;
+  paymentDate: string;
+  status: boolean;
+  paymentMethod: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
-interface CustomersTableProps {
+interface PaymentsTableProps {
   count?: number;
   page?: number;
-  rows?: Customer[];
+  rows?: Payment[];
   rowsPerPage?: number;
 }
 
-export function CustomersTable({
+export function PaymentsTable({
   count = 0,
   rows = [],
   page = 0,
   rowsPerPage = 0,
-}: CustomersTableProps): React.JSX.Element {
+}: PaymentsTableProps): React.JSX.Element {
   const rowIds = React.useMemo(() => {
-    return rows.map((customer) => customer.id);
+    return rows.map((payment) => payment.id);
   }, [rows]);
 
   const { selectAll, deselectAll, selectOne, deselectOne, selected } = useSelection(rowIds);
@@ -62,7 +67,7 @@ export function CustomersTable({
         <Table sx={{ minWidth: '800px' }}>
           <TableHead>
             <TableRow>
-              {/*
+              
               <TableCell padding="checkbox">
                 <Checkbox
                   checked={selectedAll}
@@ -76,10 +81,12 @@ export function CustomersTable({
                   }}
                 />
               </TableCell>
-              */}
-              <TableCell>Tên</TableCell>
+             
               <TableCell>Email</TableCell>
+              <TableCell>Tên</TableCell>
               <TableCell>Số điện thoại</TableCell>
+              <TableCell>Ngày thanh toán</TableCell>
+              <TableCell>Trạng thái</TableCell>
               <TableCell align="right">Thao tác</TableCell>
             </TableRow>
           </TableHead>
@@ -89,7 +96,7 @@ export function CustomersTable({
 
               return (
                 <TableRow hover key={row.id} selected={isSelected}>
-                  {/*
+                  
                   <TableCell padding="checkbox">
                     <Checkbox
                       checked={isSelected}
@@ -102,14 +109,16 @@ export function CustomersTable({
                       }}
                     />
                   </TableCell>
-                  */}
+                 
                   <TableCell>
-                    <Link href={`/dashboard/customers/${row.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-                      <Typography variant="subtitle2">{row.name}</Typography>
+                    <Link href={`/dashboard/payments/${row.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                      <Typography variant="subtitle2">{row.email}</Typography>
                     </Link>
                   </TableCell>
-                  <TableCell>{row.email}</TableCell>
+                  <TableCell>{row.name}</TableCell>
                   <TableCell>{row.phone}</TableCell>
+                  <TableCell>{row.paymentDate}</TableCell>
+                  <TableCell>{row.status}</TableCell>                  
                   <TableCell align="right">
                     <Link href={`/dashboard/customers/${row.id}`}>
                       <Button variant="outlined" size="small">Chi tiết</Button>

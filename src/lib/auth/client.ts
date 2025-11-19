@@ -5,7 +5,7 @@ import type { User } from '@/types/user';
 
 const API_ROOT =
   process.env.NEXT_PUBLIC_API_ROOT ||
-  'https://transphysical-charlotte-doomfully.ngrok-free.dev';
+  'https://api20251116200831-djh7b7e4dseec6a4.southeastasia-01.azurewebsites.net';
 
 export interface SignInWithPasswordParams {
   email: string;
@@ -63,6 +63,26 @@ export class AuthClient {
       localStorage.removeItem('refreshToken');
     }
     return {};
+  }
+
+  async signUp(values: { name?: string; email: string; password: string }): Promise<{ error?: string }> {
+    try {
+      await axios.post(`${API_ROOT}/api/admin/auth/register`, values);
+      return {};
+    } catch (err: any) {
+      console.error('SignUp error:', err);
+      return { error: err.response?.data?.message || 'Sign up failed' };
+    }
+  }
+
+  async resetPassword(values: { email: string }): Promise<{ error?: string }> {
+    try {
+      await axios.post(`${API_ROOT}/api/admin/auth/reset-password`, values);
+      return {};
+    } catch (err: any) {
+      console.error('ResetPassword error:', err);
+      return { error: err.response?.data?.message || 'Reset password failed' };
+    }
   }
 }
 
