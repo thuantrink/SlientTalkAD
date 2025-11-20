@@ -12,13 +12,11 @@ export interface LoginResponse {
   refreshToken?: string;
 }
 
-// 🧠 Đăng nhập
 export async function adminLogin(payload: LoginRequest): Promise<LoginResponse> {
-  const res = await api.post("/api/admin/auth/login", payload);
+  const res = await api.post("/api/auth/login", payload);
   return res.data;
 }
 
-// 🧠 Refresh token (nếu có)
 export async function refreshToken(refreshToken?: string) {
   const res = await api.post(
     "/api/admin/auth/refresh",

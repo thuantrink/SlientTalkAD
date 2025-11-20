@@ -54,7 +54,6 @@ export function SignInForm(): React.JSX.Element {
         const result = await adminLogin({
           email: values.email,
           password: values.password,
-          requiredRole: 'Admin',
         });
 
         // Lưu token vào localStorage
@@ -87,16 +86,10 @@ export function SignInForm(): React.JSX.Element {
     <Stack spacing={4}>
       <Stack spacing={1}>
         <Typography variant="h4" sx={{ textAlign: 'center' }}>Đăng nhập</Typography>
-        {/* <Typography color="text.secondary" variant="body2">
-          Bạn chưa có tài khoản?{' '}
-          <Link component={RouterLink} href={paths.auth.signUp} underline="hover" variant="subtitle2">
-            Đăng ký
-          </Link>
-        </Typography> */}
+
       </Stack>
 
-      {/* <form onSubmit={handleSubmit(onSubmit)}> */}
-      <form onSubmit={() => router.push('/dashboard')}>
+      <form onSubmit={handleSubmit(onSubmit)}>
 
         <Stack spacing={2}>
           <Controller
@@ -144,29 +137,12 @@ export function SignInForm(): React.JSX.Element {
               </FormControl>
             )}
           />
-          {/* <div>
-            <Link component={RouterLink}
-              href={paths.auth.resetPassword}
-              variant="subtitle2">
-              Quên mật khẩu?
-            </Link>
-          </div> */}
-          {errors.root ? <Alert color="error">{errors.root.message}</Alert> : null}
+          {/* {errors.root ? <Alert color="error">{errors.root.message}</Alert> : null} */}
           <Button disabled={isPending} type="submit" variant="contained">
             Đăng nhập
           </Button>
         </Stack>
       </form>
-      {/* <Alert color="warning">
-        Use{' '}
-        <Typography component="span" sx={{ fontWeight: 700 }} variant="inherit">
-          sofia@devias.io
-        </Typography>{' '}
-        with password{' '}
-        <Typography component="span" sx={{ fontWeight: 700 }} variant="inherit">
-          Secret1
-        </Typography>
-      </Alert> */}
     </Stack>
   );
 }

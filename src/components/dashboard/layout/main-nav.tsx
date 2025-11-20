@@ -16,6 +16,7 @@ import { usePopover } from '@/hooks/use-popover';
 
 import { MobileNav } from './mobile-nav';
 import { UserPopover } from './user-popover';
+import { SignOutIcon } from '@phosphor-icons/react';
 
 export function MainNav(): React.JSX.Element {
   const [openNav, setOpenNav] = React.useState<boolean>(false);
@@ -60,23 +61,28 @@ export function MainNav(): React.JSX.Element {
                 <UsersIcon />
               </IconButton>
             </Tooltip> */}
-            <Tooltip title="Notifications">
+            {/* <Tooltip title="Notifications">
               <Badge badgeContent={4} color="success" variant="dot">
                 <IconButton>
                   <BellIcon />
                 </IconButton>
               </Badge>
-            </Tooltip>
-            <Avatar
+            </Tooltip> */}
+            {/* <Avatar
               onClick={userPopover.handleOpen}
               ref={userPopover.anchorRef}
               src="/assets/avatar.png"
               sx={{ cursor: 'pointer' }}
-            />
+            /> */}
+     
+            <IconButton onClick={() => console.log("logout clicked")}>
+              <SignOutIcon fontSize="var(--icon-fontSize-md)" />
+            </IconButton>
+
           </Stack>
         </Stack>
       </Box>
-      <UserPopover anchorEl={userPopover.anchorRef.current} onClose={userPopover.handleClose} open={userPopover.open} />
+      {/* <UserPopover anchorEl={userPopover.anchorRef.current} onClose={userPopover.handleClose} open={userPopover.open} /> */}
       <MobileNav
         onClose={() => {
           setOpenNav(false);
