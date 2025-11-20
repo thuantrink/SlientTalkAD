@@ -17,10 +17,10 @@ import dayjs from 'dayjs';
 import api from '@/utils/axiosConfig';
 
 interface Props {
-  params: { id: string };
+  params: { id: string; };
 }
 
-export default function Page({ params }: Props): React.JSX.Element {
+export default function Page({ params }: { params: { id: string; }; }): React.JSX.Element {
   const { id } = params;
 
   const [user, setUser] = React.useState<any>(null);
