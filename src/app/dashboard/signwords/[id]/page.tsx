@@ -30,7 +30,7 @@ interface Props {
 }
 interface PageProps {
   params: {
-    id: string; // This key matches the folder name [id]
+    id: string;
   };
 }
 
