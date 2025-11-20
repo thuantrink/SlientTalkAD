@@ -29,7 +29,7 @@ export interface Customer {
   avatar: string;
   name: string;
   email: string;
-  address: { city: string; state: string; country: string; street: string };
+  address: { city: string; state: string; country: string; street: string; };
   phone: string;
   createdAt: Date;
 }
@@ -39,6 +39,7 @@ interface CustomersTableProps {
   page?: number;
   rows?: Customer[];
   rowsPerPage?: number;
+  onCurrentPageChange: (page: number) => void;
 }
 
 export function CustomersTable({
@@ -46,6 +47,7 @@ export function CustomersTable({
   rows = [],
   page = 0,
   rowsPerPage = 0,
+  onCurrentPageChange
 }: CustomersTableProps): React.JSX.Element {
   const rowIds = React.useMemo(() => {
     return rows.map((customer) => customer.id);
@@ -77,14 +79,17 @@ export function CustomersTable({
                 />
               </TableCell>
               */}
-              <TableCell>Tên</TableCell>
+              <TableCell>
+                STT
+              </TableCell>
               <TableCell>Email</TableCell>
+              <TableCell>Tên</TableCell>
               <TableCell>Số điện thoại</TableCell>
               <TableCell align="right">Thao tác</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => {
+            {rows.map((row, index) => {
               const isSelected = selected?.has(row.id);
 
               return (
@@ -103,12 +108,13 @@ export function CustomersTable({
                     />
                   </TableCell>
                   */}
+                  <TableCell>{page * rowsPerPage + index + 1}</TableCell>
+                  <TableCell>{row.email}</TableCell>
                   <TableCell>
                     <Link href={`/dashboard/customers/${row.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                       <Typography variant="subtitle2">{row.name}</Typography>
                     </Link>
                   </TableCell>
-                  <TableCell>{row.email}</TableCell>
                   <TableCell>{row.phone}</TableCell>
                   <TableCell align="right">
                     <Link href={`/dashboard/customers/${row.id}`}>
@@ -125,11 +131,15 @@ export function CustomersTable({
       <TablePagination
         component="div"
         count={count}
-        onPageChange={noop}
-        onRowsPerPageChange={noop}
+        onPageChange={(event, newPage) => {
+          onCurrentPageChange(newPage);
+        }}
         page={page}
         rowsPerPage={rowsPerPage}
-        rowsPerPageOptions={[5, 10, 25]}
+        rowsPerPageOptions={[]}
+        labelDisplayedRows={({ from, to, count }) => {
+          return `Từ ${from} đến ${to} trên tổng số ${count !== -1 ? count : 'nhiều'}`;
+        }}
       />
     </Card>
   );
