@@ -1,4 +1,6 @@
+"use client"
 import * as React from 'react';
+import { useEffect, useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -6,14 +8,27 @@ import LinearProgress from '@mui/material/LinearProgress';
 import Stack from '@mui/material/Stack';
 import type { SxProps } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
-import { ListBulletsIcon } from '@phosphor-icons/react/dist/ssr/ListBullets';
+import { UsersThreeIcon } from '@phosphor-icons/react/dist/ssr/UsersThree';
+import { fetchDashboardData } from '@/service/dashboard';
 
 export interface TasksProgressProps {
   sx?: SxProps;
   value: number;
 }
 
-export function TasksProgress({ value, sx }: TasksProgressProps): React.JSX.Element {
+export function TotalAccessAllTime({ value, sx }: TasksProgressProps): React.JSX.Element {
+      const [totalAccessAllTime, setTotalAccessAllTime] = useState<string>('0');
+      const [loading, setLoading] = useState<boolean>(true);
+
+      useEffect(() => {
+              fetchDashboardData()
+                .then((data) => {
+                  const accessValue = data.totalAccessAllTime.toString();
+                    setTotalAccessAllTime(accessValue);
+                })
+                .catch((err) => console.error(err))
+                .finally(() => setLoading(false));
+            }, []);
   return (
     <Card sx={sx}>
       <CardContent>
@@ -23,15 +38,15 @@ export function TasksProgress({ value, sx }: TasksProgressProps): React.JSX.Elem
               <Typography color="text.secondary" gutterBottom variant="overline">
                 Tổng số lượt truy cập
               </Typography>
-              <Typography variant="h4">{value}%</Typography>
+              <Typography variant="h4">{loading ? 'Đang tải...' : totalAccessAllTime}</Typography>
             </Stack>
             <Avatar sx={{ backgroundColor: 'var(--mui-palette-warning-main)', height: '56px', width: '56px' }}>
-              <ListBulletsIcon fontSize="var(--icon-fontSize-lg)" />
+              <UsersThreeIcon fontSize="var(--icon-fontSize-lg)" />
             </Avatar>
           </Stack>
-          <div>
+          {/* <div>
             <LinearProgress value={value} variant="determinate" />
-          </div>
+          </div> */}
         </Stack>
       </CardContent>
     </Card>

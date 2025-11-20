@@ -1,4 +1,6 @@
+"use client"
 import * as React from 'react';
+import { useEffect, useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -7,7 +9,9 @@ import type { SxProps } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import { ArrowDownIcon } from '@phosphor-icons/react/dist/ssr/ArrowDown';
 import { ArrowUpIcon } from '@phosphor-icons/react/dist/ssr/ArrowUp';
-import { UsersIcon } from '@phosphor-icons/react/dist/ssr/Users';
+import { UserIcon } from '@phosphor-icons/react/dist/ssr/User';
+import { fetchDashboardData } from '@/service/dashboard';
+
 
 export interface TotalCustomersProps {
   diff?: number;
@@ -17,8 +21,17 @@ export interface TotalCustomersProps {
 }
 
 export function TotalCustomers({ diff, trend, sx, value }: TotalCustomersProps): React.JSX.Element {
+  const [totalCustomers, setTotalCustomers] = useState<string>('0');
+  const [loading, setLoading] = useState<boolean>(true);
   const TrendIcon = trend === 'up' ? ArrowUpIcon : ArrowDownIcon;
   const trendColor = trend === 'up' ? 'var(--mui-palette-success-main)' : 'var(--mui-palette-error-main)';
+
+  useEffect(() => {
+    fetchDashboardData()
+      .then((data) => setTotalCustomers(data.totalCustomers))
+      .catch((err) => console.error(err))
+      .finally(() => setLoading(false));
+  }, []);
 
   return (
     <Card sx={sx}>
@@ -27,12 +40,12 @@ export function TotalCustomers({ diff, trend, sx, value }: TotalCustomersProps):
           <Stack direction="row" sx={{ alignItems: 'flex-start', justifyContent: 'space-between' }} spacing={3}>
             <Stack spacing={1}>
               <Typography color="text.secondary" variant="overline">
-                Tổng số người dùng mới
+                Tổng số người dùng
               </Typography>
-              <Typography variant="h4">{value}</Typography>
+              <Typography variant="h4">{loading ? 'Đang tải...' : totalCustomers}</Typography>
             </Stack>
-            <Avatar sx={{ backgroundColor: 'var(--mui-palette-success-main)', height: '56px', width: '56px' }}>
-              <UsersIcon fontSize="var(--icon-fontSize-lg)" />
+            <Avatar sx={{ backgroundColor: 'grey', height: '56px', width: '56px' }}>
+              <UserIcon fontSize="var(--icon-fontSize-lg)" />
             </Avatar>
           </Stack>
           {/* {diff ? (

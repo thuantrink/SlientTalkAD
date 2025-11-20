@@ -19,7 +19,7 @@ export function Layout({ children }: LayoutProps): React.JSX.Element {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
 
         // ⭐ Nền được thay y hệt SideNav
         backgroundImage: `
@@ -33,7 +33,7 @@ export function Layout({ children }: LayoutProps): React.JSX.Element {
       }}
     >
       {/* Logo phía trên form */}
-      <Box
+      <Box marginTop={6} marginLeft={-2}
         sx={{
           mb: 4,
           display: 'flex',
@@ -63,7 +63,7 @@ export function Layout({ children }: LayoutProps): React.JSX.Element {
       </Box>
 
       {/* Form đăng nhập */}
-      <Box
+      <Box marginTop={9}
         sx={{
           width: '100%',
           maxWidth: 450,
