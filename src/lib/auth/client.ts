@@ -32,7 +32,7 @@ export class AuthClient {
       return {};
     } catch (err: any) {
       console.error('Login error:', err);
-      return { error: err.response?.data?.message || 'Login failed' };
+      return { error: err.response?.data?.message || 'Đăng nhập thất bại.' };
     }
   }
 
@@ -48,7 +48,7 @@ export class AuthClient {
       return { data: res.data };
     } catch (err: any) {
       console.error('GetUser error:', err);
-      return { data: null, error: err.response?.data?.message || 'Unauthorized' };
+      return { data: null, error: err.response?.data?.message || 'Không được cấp quyền.' };
     }
   }
 
@@ -71,7 +71,7 @@ export class AuthClient {
       return {};
     } catch (err: any) {
       console.error('SignUp error:', err);
-      return { error: err.response?.data?.message || 'Sign up failed' };
+      return { error: err.response?.data?.message || 'Đăng ký thất bại.' };
     }
   }
 
@@ -81,7 +81,7 @@ export class AuthClient {
       return {};
     } catch (err: any) {
       console.error('ResetPassword error:', err);
-      return { error: err.response?.data?.message || 'Reset password failed' };
+      return { error: err.response?.data?.message || 'Lấy lại mật khẩu thất bại.' };
     }
   }
 }

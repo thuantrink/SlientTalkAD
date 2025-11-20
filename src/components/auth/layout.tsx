@@ -1,11 +1,11 @@
+'use client';
+
 import * as React from 'react';
 import RouterLink from 'next/link';
 import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
 
 import { paths } from '@/paths';
-import { DynamicLogo } from '@/components/core/logo';
+
 
 export interface LayoutProps {
   children: React.ReactNode;
@@ -15,32 +15,65 @@ export function Layout({ children }: LayoutProps): React.JSX.Element {
   return (
     <Box
       sx={{
-        display: { xs: 'flex', lg: 'grid' },
+        minHeight: '100vh',
+        display: 'flex',
         flexDirection: 'column',
-        gridTemplateColumns: '1fr 1fr',
-        minHeight: '100%',
+        alignItems: 'center',
+        justifyContent: 'center',
+
+        // ⭐ Nền được thay y hệt SideNav
+        backgroundImage: `
+          linear-gradient(145deg, #09A3FB 15%, #09A3FB 30%, #2877ED 100%)
+        `,
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'cover',
+        backgroundBlendMode: 'screen',
+
+        p: 3,
       }}
     >
-      <Box sx={{ display: 'flex', flex: '1 1 auto', flexDirection: 'column' }}>
-        <Box sx={{ p: 3 }}>
-          <Box component={RouterLink} href={paths.home} sx={{ display: 'inline-block', fontSize: 0 }}>
-            <DynamicLogo colorDark="light" colorLight="dark" height={32} width={122} />
-          </Box>
-        </Box>
-        <Box sx={{ alignItems: 'center', display: 'flex', flex: '1 1 auto', justifyContent: 'center', p: 3 }}>
-          <Box sx={{ maxWidth: '450px', width: '100%' }}>{children}</Box>
-        </Box>
-      </Box>
+      {/* Logo phía trên form */}
       <Box
         sx={{
-          alignItems: 'center',
-          background: 'radial-gradient(50% 50% at 50% 50%, #122647 0%, #090E23 100%)',
-          color: 'var(--mui-palette-common-white)',
-          display: { xs: 'none', lg: 'flex' },
+          mb: 4,
+          display: 'flex',
           justifyContent: 'center',
-          p: 3,
         }}
       >
+        <Box
+          component={RouterLink}
+          href={paths.home}
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            textDecoration: 'none',
+          }}
+        >
+          <Box
+            component="img"
+            src="/assets/logo.svg"
+            alt="Logo"
+            sx={{
+              height: 50,
+              width: 'auto',
+            }}
+          />
+        </Box>
+      </Box>
+
+      {/* Form đăng nhập */}
+      <Box
+        sx={{
+          width: '100%',
+          maxWidth: 450,
+          bgcolor: 'white',
+          borderRadius: 2,
+          p: 4,
+          boxShadow: '0 4px 24px rgba(0,0,0,0.4)',
+        }}
+      >
+        {children}
       </Box>
     </Box>
   );
