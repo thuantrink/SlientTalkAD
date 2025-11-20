@@ -93,7 +93,11 @@ export function CustomersTable({
               const isSelected = selected?.has(row.id);
 
               return (
-                <TableRow hover key={row.id} selected={isSelected}>
+                <TableRow
+                  hover
+                  key={row.id}
+                  selected={isSelected}
+                >
                   {/*
                   <TableCell padding="checkbox">
                     <Checkbox

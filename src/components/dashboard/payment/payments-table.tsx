@@ -18,6 +18,7 @@ import Link from 'next/link';
 import dayjs from 'dayjs';
 
 import { useSelection } from '@/hooks/use-selection';
+import { Chip } from '@mui/material';
 
 function noop(): void {
   // do nothing
@@ -44,6 +45,7 @@ interface PaymentsTableProps {
   page?: number;
   rows?: Payment[];
   rowsPerPage?: number;
+  onCurrentPageChange: (page: number) => void;
 }
 
 export function PaymentsTable({
@@ -51,6 +53,7 @@ export function PaymentsTable({
   rows = [],
   page = 0,
   rowsPerPage = 0,
+  onCurrentPageChange
 }: PaymentsTableProps): React.JSX.Element {
   const rowIds = React.useMemo(() => {
     return rows.map((payment) => payment.id);
@@ -67,8 +70,8 @@ export function PaymentsTable({
         <Table sx={{ minWidth: '800px' }}>
           <TableHead>
             <TableRow>
-              
-              <TableCell padding="checkbox">
+
+              {/* <TableCell padding="checkbox">
                 <Checkbox
                   checked={selectedAll}
                   indeterminate={selectedSome}
@@ -80,24 +83,24 @@ export function PaymentsTable({
                     }
                   }}
                 />
-              </TableCell>
-             
+              </TableCell> */}
+              <TableCell>STT</TableCell>
               <TableCell>Email</TableCell>
-              <TableCell>Tên</TableCell>
-              <TableCell>Số điện thoại</TableCell>
+              {/* <TableCell>Tên</TableCell>
+              <TableCell>Số điện thoại</TableCell> */}
               <TableCell>Ngày thanh toán</TableCell>
               <TableCell>Trạng thái</TableCell>
               <TableCell align="right">Thao tác</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => {
+            {rows.map((row, index) => {
               const isSelected = selected?.has(row.id);
 
               return (
                 <TableRow hover key={row.id} selected={isSelected}>
-                  
-                  <TableCell padding="checkbox">
+
+                  {/* <TableCell padding="checkbox">
                     <Checkbox
                       checked={isSelected}
                       onChange={(event) => {
@@ -108,19 +111,28 @@ export function PaymentsTable({
                         }
                       }}
                     />
-                  </TableCell>
-                 
+                  </TableCell> */}
+                  <TableCell>{page * rowsPerPage + index + 1}</TableCell>
                   <TableCell>
                     <Link href={`/dashboard/payments/${row.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                       <Typography variant="subtitle2">{row.email}</Typography>
                     </Link>
                   </TableCell>
-                  <TableCell>{row.name}</TableCell>
-                  <TableCell>{row.phone}</TableCell>
-                  <TableCell>{row.paymentDate}</TableCell>
-                  <TableCell>{row.status}</TableCell>                  
+                  {/* <TableCell>{row.name}</TableCell>
+                  <TableCell>{row.phone}</TableCell> */}
+                  <TableCell>
+                    {dayjs(row.paymentDate * 1000).format('YYYY-MM-DD HH:mm')}
+                  </TableCell>
+                  <TableCell>
+                    {row.status ? (
+                      <Chip label="Thành công" color="success" size="small" />
+                    ) : (
+                      <Chip label="Thất bại" color="error" size="small" />
+                    )}
+                  </TableCell>
+
                   <TableCell align="right">
-                    <Link href={`/dashboard/customers/${row.id}`}>
+                    <Link href={`/dashboard/payments/${row.paymentId}`}>
                       <Button variant="outlined" size="small">Chi tiết</Button>
                     </Link>
                   </TableCell>
@@ -134,11 +146,15 @@ export function PaymentsTable({
       <TablePagination
         component="div"
         count={count}
-        onPageChange={noop}
-        onRowsPerPageChange={noop}
+        onPageChange={(event, newPage) => {
+          onCurrentPageChange(newPage);
+        }}
         page={page}
         rowsPerPage={rowsPerPage}
-        rowsPerPageOptions={[5, 10, 25]}
+        rowsPerPageOptions={[]}
+        labelDisplayedRows={({ from, to, count }) => {
+          return `Từ ${from} đến ${to} trên tổng số ${count !== -1 ? count : 'nhiều'}`;
+        }}
       />
     </Card>
   );
