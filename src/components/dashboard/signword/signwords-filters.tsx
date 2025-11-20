@@ -29,7 +29,7 @@ export function SignwordsFilters({ keyword,
   onIsActiveChange
 }: FilterProps): React.JSX.Element {
   return (
-    <Card sx={{ p: 2, display: 'flex', justifyContent: 'space-evenly' }}>
+    <Card sx={{ p: 2, display: 'flex', justifyContent: 'flex-start', gap: 4 }}>
       <OutlinedInput
         defaultValue=""
         fullWidth

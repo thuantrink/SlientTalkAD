@@ -36,8 +36,6 @@ export default function Page(): React.JSX.Element {
     else setSortBy(field);
   };
 
-
-
   React.useEffect(() => {
     const fetchSignWords = async () => {
       try {

@@ -22,25 +22,64 @@ import { email } from "zod/dist/types/v4/core/regexes";
 export default function Page(): React.JSX.Element {
   const [payments, setPayments] = React.useState<any[]>([]);
   const [page, setPage] = React.useState(0);
+  const [currentPage, setCurrentPage] = React.useState(1);
+  
   const rowsPerPage = 5;
+  
+  const [filter, setFilter] = React.useState<{ keyword?: string; fromDate?: number; toDate?: number; }>({});
 
   React.useEffect(() => {
     loadData();
   }, [page]);
 
+  // async function loadData() {
+  //   try{
+  //     const res = await fetch(
+  //       `https://api20251116200831-djh7b7e4dseec6a4.southeastasia-01.azurewebsites.net/api/admin/payments?keyword=&currentPage=${page + 1}&pageSize=${rowsPerPage}`,
+  //       { credentials: "omit" }
+  //     );
+
+  //     const data =  await res.json();
+  //     const mapped = data.data.map((p: any, index: number) => ({
+  //       id: index +1 + page * rowsPerPage + '',
+  //       email: p.email,
+  //       name: p.name, 
+  //       phone: p.phone,
+  //       paymentId: p.paymentId,
+  //       userPlanId: p.userPlanId,
+  //       amount: p.amount,
+  //       currency: p.currency,
+  //       paymentDate: p.paymentDate,
+  //       status: p.status,
+  //       paymentMethod: p.paymentMethod,
+  //       updatedAt: p.updatedAt,
+  //     }));
+
+  //     setPayments(mapped);
+  //   } catch (error) { 
+  //     console.error("Failed to fetch payments:", error);
+  //   }
+  // }
   async function loadData() {
-    try{
+    try {
+      const query = new URLSearchParams({
+        keyword: filter.keyword ?? '',
+        currentPage: (page + 1).toString(),
+        pageSize: rowsPerPage.toString(),
+        ...(filter.fromDate ? { fromDate: filter.fromDate.toString() } : {}),
+        ...(filter.toDate ? { toDate: filter.toDate.toString() } : {}),
+      }).toString();
+
       const res = await fetch(
-        `https://api20251116200831-djh7b7e4dseec6a4.southeastasia-01.azurewebsites.net/api/admin/payments?keyword=&currentPage=${page + 1}&pageSize=${rowsPerPage}`,
+        `https://api20251116200831-djh7b7e4dseec6a4.southeastasia-01.azurewebsites.net/api/admin/payments?${query}`,
         { credentials: "omit" }
       );
 
-      const data =  await res.json();
-      console.log("API RESPONSE:", data);
+      const data = await res.json();
       const mapped = data.data.map((p: any, index: number) => ({
-        id: index +1 + page * rowsPerPage + '',
+        id: index + 1 + page * rowsPerPage + '',
         email: p.email,
-        name: p.name, 
+        name: p.name,
         phone: p.phone,
         paymentId: p.paymentId,
         userPlanId: p.userPlanId,
@@ -49,27 +88,37 @@ export default function Page(): React.JSX.Element {
         paymentDate: p.paymentDate,
         status: p.status,
         paymentMethod: p.paymentMethod,
-        // createdAt: p.createdAt,
         updatedAt: p.updatedAt,
       }));
 
       setPayments(mapped);
-    } catch (error) { 
+    } catch (error) {
       console.error("Failed to fetch payments:", error);
     }
   }
+
   return (
     <Stack spacing={3}>
       <Stack spacing={1} sx={{ flex: '1 1 auto' }}>
         <Typography variant="h4">Quản lý thanh toán</Typography>
-      <div>
-          <Button startIcon={<PlusIcon fontSize="var(--icon-fontSize-md)" />} variant="contained">
-            Thêm
-          </Button>
-        </div>
+    
       </Stack>
-  <PaymentsFilters/>
-  <PaymentsTable count={payments.length} page={page} rows={payments} rowsPerPage={rowsPerPage} />
+      {/* <PaymentsFilters
+        
+      /> */}
+       <PaymentsFilters
+        onFilter={(newFilter) => {
+          setFilter(newFilter);
+          setPage(0);
+        }}
+      />
+      <PaymentsTable
+        count={payments.length}
+        page={page}
+        rows={payments}
+        rowsPerPage={rowsPerPage}
+        onCurrentPageChange={(newPage) => setPage(newPage + 1)}
+      />
     </Stack>
   );
 }

@@ -183,9 +183,6 @@ export function SignwordsTable({
         page={page}
         rowsPerPageOptions={[]}
         labelDisplayedRows={({ from, to, count }) => {
-
-          // Example 2 (Vietnamese Translation): "Từ 1 đến 5 trên tổng số 30"
-          // Handle 'of' text when count is -1 (unknown) if needed, otherwise use count
           return `Từ ${from} đến ${to} trên tổng số ${count !== -1 ? count : 'nhiều'}`;
         }}
       />
