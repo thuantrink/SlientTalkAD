@@ -80,7 +80,7 @@ export default function DashboardLayout({ children }: LayoutProps) {
           body: {
             '--MainNav-height': '56px',
             '--MainNav-zIndex': 1000,
-            '--SideNav-width': '280px',
+            '--SideNav-width': '235px',
             '--SideNav-zIndex': 1100,
             '--MobileNav-width': '320px',
             '--MobileNav-zIndex': 1100,
@@ -107,7 +107,7 @@ export default function DashboardLayout({ children }: LayoutProps) {
         >
           <MainNav />
           <main>
-            <Container maxWidth="xl" sx={{ py: '64px' }}>
+            <Container maxWidth="xl" sx={{ pt: '16px',pb: '64px' }}>
               {children}
             </Container>
           </main>

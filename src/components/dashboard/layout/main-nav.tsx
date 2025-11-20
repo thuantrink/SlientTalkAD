@@ -16,11 +16,25 @@ import { usePopover } from '@/hooks/use-popover';
 
 import { MobileNav } from './mobile-nav';
 import { UserPopover } from './user-popover';
+import { SignOutIcon } from '@phosphor-icons/react';
+import { useRouter } from "next/navigation";
+import { useUser } from "@/hooks/use-user";
 
 export function MainNav(): React.JSX.Element {
   const [openNav, setOpenNav] = React.useState<boolean>(false);
 
   const userPopover = usePopover<HTMLDivElement>();
+
+  const router = useRouter();
+  const { setUser } = useUser();
+
+  const handleSignOut = () => {
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+
+    setUser?.(null);
+    router.push('/auth/sign-in');
+  }
 
   return (
     <React.Fragment>
@@ -48,35 +62,40 @@ export function MainNav(): React.JSX.Element {
             >
               <ListIcon />
             </IconButton>
-            <Tooltip title="Search">
+            {/* <Tooltip title="Search">
               <IconButton>
                 <MagnifyingGlassIcon />
               </IconButton>
-            </Tooltip>
+            </Tooltip> */}
           </Stack>
           <Stack sx={{ alignItems: 'center' }} direction="row" spacing={2}>
-            <Tooltip title="Contacts">
+            {/* <Tooltip title="Contacts">
               <IconButton>
                 <UsersIcon />
               </IconButton>
-            </Tooltip>
-            <Tooltip title="Notifications">
+            </Tooltip> */}
+            {/* <Tooltip title="Notifications">
               <Badge badgeContent={4} color="success" variant="dot">
                 <IconButton>
                   <BellIcon />
                 </IconButton>
               </Badge>
-            </Tooltip>
-            <Avatar
+            </Tooltip> */}
+            {/* <Avatar
               onClick={userPopover.handleOpen}
               ref={userPopover.anchorRef}
               src="/assets/avatar.png"
               sx={{ cursor: 'pointer' }}
-            />
+            /> */}
+     
+            <IconButton onClick={handleSignOut}>
+              <SignOutIcon fontSize="var(--icon-fontSize-md)" />
+            </IconButton>
+
           </Stack>
         </Stack>
       </Box>
-      <UserPopover anchorEl={userPopover.anchorRef.current} onClose={userPopover.handleClose} open={userPopover.open} />
+      {/* <UserPopover anchorEl={userPopover.anchorRef.current} onClose={userPopover.handleClose} open={userPopover.open} /> */}
       <MobileNav
         onClose={() => {
           setOpenNav(false);

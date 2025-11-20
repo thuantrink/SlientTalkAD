@@ -23,17 +23,16 @@ import { adminLogin } from '@/lib/api/adminAuthService';
 import { useUser } from '@/hooks/use-user';
 
 const schema = zod.object({
-  email: zod.string().min(1, { message: 'Email is required' }).email(),
-  password: zod.string().min(1, { message: 'Password is required' }),
+  email: zod.string().min(1, { message: 'Yêu cầu nhập Email.' }).email(),
+  password: zod.string().min(1, { message: 'Yêu cầu nhập Mật khẩu.' }),
 });
 
 type Values = zod.infer<typeof schema>;
 
-const defaultValues = { email: 'sofia@devias.io', password: 'Secret1' } satisfies Values;
+const defaultValues = { email: '', password: '' } satisfies Values;
 
 export function SignInForm(): React.JSX.Element {
   const router = useRouter();
-  // ✅ LẤY từ context ở top-level component (KHÔNG trong callback)
   const { checkSession, setUser } = useUser();
 
   const [showPassword, setShowPassword] = React.useState<boolean>();
@@ -46,58 +45,51 @@ export function SignInForm(): React.JSX.Element {
     formState: { errors },
   } = useForm<Values>({ defaultValues, resolver: zodResolver(schema) });
 
-  // const onSubmit = React.useCallback(
-  //   async (values: Values): Promise<void> => {
-  //     setIsPending(true);
-  //     setError('root', { type: 'server', message: '' }); // reset lỗi cũ
+  const onSubmit = React.useCallback(
+    async (values: Values): Promise<void> => {
+      setIsPending(true);
+      setError('root', { type: 'server', message: '' }); // reset lỗi cũ
 
-  //     try {
-  //       const result = await adminLogin({
-  //         email: values.email,
-  //         password: values.password,
-  //         requiredRole: 'Admin',
-  //       });
+      try {
+        const result = await adminLogin({
+          email: values.email,
+          password: values.password,
+        });
 
-  //       // Lưu token vào localStorage
-  //       localStorage.setItem('accessToken', result.accessToken);
-  //       if (result.refreshToken) {
-  //         localStorage.setItem('refreshToken', result.refreshToken);
-  //       }
+        // Lưu token vào localStorage
+        localStorage.setItem('accessToken', result.accessToken);
+        if (result.refreshToken) {
+          localStorage.setItem('refreshToken', result.refreshToken);
+        }
 
-  //       // Nếu có setUser exposed, gán tạm user (BE chưa có /me)
-  //       setUser?.({
-  //         id: 'admin',
-  //         email: values.email,
-  //         firstName: 'Admin',
-  //         lastName: 'User',
-  //       } as any);
+        // Nếu có setUser exposed, gán tạm user (BE chưa có /me)
+        setUser?.({
+          id: 'admin',
+          email: values.email,
+          firstName: 'Admin',
+          lastName: 'User',
+        } as any);
 
-  //       router.push('/dashboard');
-  //     } catch (err: any) {
-  //       console.error('Login error:', err);
-  //       const msg = err?.response?.data?.message || err?.message || 'Login failed. Please try again.';
-  //       setError('root', { type: 'server', message: msg });
-  //     } finally {
-  //       setIsPending(false);
-  //     }
-  //   },
-  //   [router, setError, checkSession, setUser]
-  // );
+        router.push('/dashboard');
+      } catch (err: any) {
+        console.error('Login error:', err);
+        const msg = err?.response?.data?.message || err?.message || 'Login failed. Please try again.';
+        setError('root', { type: 'server', message: msg });
+      } finally {
+        setIsPending(false);
+      }
+    },
+    [router, setError, checkSession, setUser]
+  );
 
   return (
     <Stack spacing={4}>
       <Stack spacing={1}>
-        <Typography variant="h4">Sign in</Typography>
-        <Typography color="text.secondary" variant="body2">
-          Don&apos;t have an account?{' '}
-          <Link component={RouterLink} href={paths.auth.signUp} underline="hover" variant="subtitle2">
-            Sign up
-          </Link>
-        </Typography>
+        <Typography variant="h4" sx={{ textAlign: 'center' }}>Đăng nhập</Typography>
+
       </Stack>
 
-      {/* <form onSubmit={handleSubmit(onSubmit)}> */}
-      <form onSubmit={() => router.push('/dashboard')}>
+      <form onSubmit={handleSubmit(onSubmit)}>
 
         <Stack spacing={2}>
           <Controller
@@ -105,7 +97,7 @@ export function SignInForm(): React.JSX.Element {
             name="email"
             render={({ field }) => (
               <FormControl error={Boolean(errors.email)}>
-                <InputLabel>Email address</InputLabel>
+                <InputLabel>Địa chỉ Email</InputLabel>
                 <OutlinedInput {...field} label="Email address" type="email" />
                 {errors.email ? <FormHelperText>{errors.email.message}</FormHelperText> : null}
               </FormControl>
@@ -116,7 +108,7 @@ export function SignInForm(): React.JSX.Element {
             name="password"
             render={({ field }) => (
               <FormControl error={Boolean(errors.password)}>
-                <InputLabel>Password</InputLabel>
+                <InputLabel>Mật khẩu</InputLabel>
                 <OutlinedInput
                   {...field}
                   endAdornment={
@@ -145,29 +137,12 @@ export function SignInForm(): React.JSX.Element {
               </FormControl>
             )}
           />
-          <div>
-            <Link component={RouterLink}
-              href={paths.auth.resetPassword}
-              variant="subtitle2">
-              Forgot password?
-            </Link>
-          </div>
-          {errors.root ? <Alert color="error">{errors.root.message}</Alert> : null}
+          {/* {errors.root ? <Alert color="error">{errors.root.message}</Alert> : null} */}
           <Button disabled={isPending} type="submit" variant="contained">
-            Sign in
+            Đăng nhập
           </Button>
         </Stack>
       </form>
-      {/* <Alert color="warning">
-        Use{' '}
-        <Typography component="span" sx={{ fontWeight: 700 }} variant="inherit">
-          sofia@devias.io
-        </Typography>{' '}
-        with password{' '}
-        <Typography component="span" sx={{ fontWeight: 700 }} variant="inherit">
-          Secret1
-        </Typography>
-      </Alert> */}
     </Stack>
   );
 }

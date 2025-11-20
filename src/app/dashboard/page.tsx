@@ -13,12 +13,12 @@ import { TotalCustomers } from '@/components/dashboard/overview/total-customers'
 import { TotalProfit } from '@/components/dashboard/overview/total-profit';
 import { Traffic } from '@/components/dashboard/overview/traffic';
 
-export const metadata = { title: `Overview | Dashboard | ${config.site.name}` } satisfies Metadata;
+export const metadata = { title: `Tổng quan | Dashboard | ${config.site.name}` } satisfies Metadata;
 
 export default function Page(): React.JSX.Element {
   return (
     <Grid container spacing={3}>
-      <Grid
+      {/* <Grid
         size={{
           lg: 3,
           sm: 6,
@@ -26,7 +26,7 @@ export default function Page(): React.JSX.Element {
         }}
       >
         <Budget diff={12} trend="up" sx={{ height: '100%' }} value="$24k" />
-      </Grid>
+      </Grid> */}
       <Grid
         size={{
           lg: 3,
