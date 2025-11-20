@@ -46,43 +46,43 @@ export function SignInForm(): React.JSX.Element {
     formState: { errors },
   } = useForm<Values>({ defaultValues, resolver: zodResolver(schema) });
 
-  // const onSubmit = React.useCallback(
-  //   async (values: Values): Promise<void> => {
-  //     setIsPending(true);
-  //     setError('root', { type: 'server', message: '' }); // reset lỗi cũ
+  const onSubmit = React.useCallback(
+    async (values: Values): Promise<void> => {
+      setIsPending(true);
+      setError('root', { type: 'server', message: '' }); // reset lỗi cũ
 
-  //     try {
-  //       const result = await adminLogin({
-  //         email: values.email,
-  //         password: values.password,
-  //         requiredRole: 'Admin',
-  //       });
+      try {
+        const result = await adminLogin({
+          email: values.email,
+          password: values.password,
+          requiredRole: 'Admin',
+        });
 
-  //       // Lưu token vào localStorage
-  //       localStorage.setItem('accessToken', result.accessToken);
-  //       if (result.refreshToken) {
-  //         localStorage.setItem('refreshToken', result.refreshToken);
-  //       }
+        // Lưu token vào localStorage
+        localStorage.setItem('accessToken', result.accessToken);
+        if (result.refreshToken) {
+          localStorage.setItem('refreshToken', result.refreshToken);
+        }
 
-  //       // Nếu có setUser exposed, gán tạm user (BE chưa có /me)
-  //       setUser?.({
-  //         id: 'admin',
-  //         email: values.email,
-  //         firstName: 'Admin',
-  //         lastName: 'User',
-  //       } as any);
+        // Nếu có setUser exposed, gán tạm user (BE chưa có /me)
+        setUser?.({
+          id: 'admin',
+          email: values.email,
+          firstName: 'Admin',
+          lastName: 'User',
+        } as any);
 
-  //       router.push('/dashboard');
-  //     } catch (err: any) {
-  //       console.error('Login error:', err);
-  //       const msg = err?.response?.data?.message || err?.message || 'Login failed. Please try again.';
-  //       setError('root', { type: 'server', message: msg });
-  //     } finally {
-  //       setIsPending(false);
-  //     }
-  //   },
-  //   [router, setError, checkSession, setUser]
-  // );
+        router.push('/dashboard');
+      } catch (err: any) {
+        console.error('Login error:', err);
+        const msg = err?.response?.data?.message || err?.message || 'Login failed. Please try again.';
+        setError('root', { type: 'server', message: msg });
+      } finally {
+        setIsPending(false);
+      }
+    },
+    [router, setError, checkSession, setUser]
+  );
 
   return (
     <Stack spacing={4}>
