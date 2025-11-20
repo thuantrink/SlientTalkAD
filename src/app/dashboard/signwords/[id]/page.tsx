@@ -1,8 +1,11 @@
+'use client';
+
 import SignwordDetailClient, { SignWordItem as _SignWordItem } from '@/components/dashboard/signword/signword-detail-client';
 import * as React from 'react';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import api from '@/utils/axiosConfig';
 
 // Reuse the type exported from the client component for consistency
 type SignWordItem = _SignWordItem;
@@ -25,11 +28,33 @@ const signwords: SignWordItem[] = [
 interface Props {
   params: any;
 }
+interface PageProps {
+  params: {
+    id: string; // This key matches the folder name [id]
+  };
+}
 
-export default function Page({ params }: Props) {
+export default function Page({ params }: PageProps) {
   const { id } = params;
-  const item = signwords.find((i) => i.signWordId === id);
+  //const item = signwords.find((i) => i.signWordId === id);
+  const [item, setItem] = React.useState(null);
+  React.useEffect(() => {
+    const fetchSignWord = async () => {
+      try {
+        const res = await api.get(`/api/admin/signwords/${id}`);
 
+        setItem(res);
+
+      } catch (err) {
+        console.log("Get Signwords thất bại", err);
+      }
+    };
+
+    fetchSignWord();
+
+  }, [id]);
+
+  console.log(item);
   if (!item) {
     return (
       <Stack spacing={3}>
@@ -41,6 +66,5 @@ export default function Page({ params }: Props) {
     );
   }
 
-  // Render the interactive client component and pass the item as prop
   return <SignwordDetailClient item={item} />;
 }

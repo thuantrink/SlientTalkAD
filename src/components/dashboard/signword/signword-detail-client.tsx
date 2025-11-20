@@ -84,8 +84,15 @@ export default function SignwordDetailClient({ item }: Props) {
   const isVideo = form.signWordUri && form.signWordUri.match(/\.(mp4|webm|ogg)$/i);
 
   return (
-    <Stack spacing={3} sx={{ mt: 3 }}>
-      <Stack direction="row" justifyContent="space-between" alignItems="center">
+    <Stack spacing={3} sx={{
+      mt: 3,
+      alignItems: 'flex-start',
+      width: '100%',
+      //display: 'flex',
+      //justifyContent: 'flex-start'
+    }}>
+      <Stack direction="row" justifyContent="space-between" alignItems="flex-start"
+        sx={{ width: '100%' }}>
         <Typography variant="h4" sx={{ fontWeight: 700 }}>
           Chi tiết ký hiệu
         </Typography>
@@ -100,8 +107,9 @@ export default function SignwordDetailClient({ item }: Props) {
           borderRadius: 3,
           boxShadow: 2,
           backgroundColor: "#fff",
-          maxWidth: 1150,
-          mx: "auto",
+          // maxWidth: 1150,
+          maxWidth: "100%",
+          //mx: "auto",
         }}
       >
         <Typography variant="h6" sx={{ mb: 3, fontWeight: 600 }}>
@@ -117,14 +125,16 @@ export default function SignwordDetailClient({ item }: Props) {
                 error={!!errors.word}
                 helperText={errors.word}
                 InputProps={{ readOnly: !editMode }}
+                sx={{ height: "80%" }}
                 onChange={(e) => handleChange("word", e.target.value)}
                 fullWidth
               />
               <TextField
                 label="Định nghĩa"
+                sx={{ height: "80%" }}
                 value={form.definition}
                 multiline
-                rows={2}
+                rows={1}
                 error={!!errors.definition}
                 helperText={errors.definition}
                 InputProps={{ readOnly: !editMode }}
@@ -223,10 +233,10 @@ export default function SignwordDetailClient({ item }: Props) {
 
               <Divider sx={{ mt: 1, mb: 0.75 }} />
 
-              <Stack direction="row" spacing={2}>
+              {/* <Stack direction="row" spacing={2}>
                 <TextField label="Ngày tạo" value={form.createdAt} InputProps={{ readOnly: true }} fullWidth />
                 <TextField label="Ngày cập nhật" value={form.updatedAt} InputProps={{ readOnly: true }} fullWidth />
-              </Stack>
+              </Stack> */}
             </Stack>
           </Box>
         </Stack>

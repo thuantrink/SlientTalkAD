@@ -49,6 +49,9 @@ interface SignWordsTableProps {
   page?: number;
   rows?: SignWord[];
   rowsPerPage?: number;
+  sortBy?: string;
+  onSortChange?: (field: string) => void;
+  onCurrentPageChange: (page: number) => void;
 }
 
 export function SignwordsTable({
@@ -56,6 +59,9 @@ export function SignwordsTable({
   rows = [],
   page = 0,
   rowsPerPage = 0,
+  sortBy,
+  onSortChange,
+  onCurrentPageChange
 }: SignWordsTableProps): React.JSX.Element {
   const [wordTypeFilter, setWordTypeFilter] = useState<string>('');
   const [categoryFilter, setCategoryFilter] = useState<string>('');
@@ -73,10 +79,10 @@ export function SignwordsTable({
     <Card>
       <Box sx={{ overflowX: 'auto' }}>
         {/* <Table sx={{ minWidth: '1200px' }}> */}
-        <Table sx={{ minWidth: '100%' }}>
+        <Table sx={{ minWidth: '100%', }}>
           <TableHead>
             <TableRow>
-              <TableCell padding="checkbox" sx={{ width: 60 }}>
+              {/* <TableCell padding="checkbox" sx={{ width: 60 }}>
                 <Checkbox
                   checked={selectedAll}
                   indeterminate={selectedSome}
@@ -88,10 +94,31 @@ export function SignwordsTable({
                     }
                   }}
                 />
+              </TableCell> */}
+              <TableCell sx={{ width: 220, cursor: "pointer" }}
+              // onClick={() => onSortChange?.('name')}
+              >
+                <Typography variant="subtitle2" fontWeight={600}>
+                  Ký hiệu
+                  {/* {sortBy === 'name' ? '↑' : sortBy === 'name_desc' ? '↓' : ''} */}
+                </Typography>
               </TableCell>
-              <TableCell sx={{ width: 220 }}><Typography variant="subtitle2" fontWeight={600}>Ký hiệu</Typography></TableCell>
-              <TableCell sx={{ width: 160, textAlign: 'center' }}><Typography variant="subtitle2" fontWeight={600}>Loại từ</Typography></TableCell>
-              <TableCell sx={{ width: 160, textAlign: 'center' }}><Typography variant="subtitle2" fontWeight={600}>Chủ đề</Typography></TableCell>
+              <TableCell sx={{ width: 160, textAlign: 'center', cursor: 'pointer' }}
+              // onClick={() => onSortChange?.('type')}
+              >
+                <Typography variant="subtitle2" fontWeight={600}>
+                  Loại từ
+                  {/* {sortBy === 'type' ? '↑' : sortBy === 'type_desc' ? '↓' : ''} */}
+                </Typography>
+              </TableCell>
+              <TableCell sx={{ width: 160, textAlign: 'center', cursor: 'pointer' }}
+              // onClick={() => onSortChange?.('cat')}
+              >
+                <Typography variant="subtitle2" fontWeight={600}>
+                  Chủ đề
+                  {/* {sortBy === 'cat' ? '↑' : sortBy === 'cat_desc' ? '↓' : ''} */}
+                </Typography>
+              </TableCell>
               <TableCell sx={{ width: 160, textAlign: 'center' }}><Typography variant="subtitle2" fontWeight={600}>Trạng thái hoạt động</Typography></TableCell>
               <TableCell sx={{ width: 160, textAlign: 'center' }}><Typography variant="subtitle2" fontWeight={600}>Ngày tạo</Typography></TableCell>
               <TableCell sx={{ width: 160, textAlign: 'center' }}><Typography variant="subtitle2" fontWeight={600}>Ngày cập nhật</Typography></TableCell>
@@ -107,7 +134,7 @@ export function SignwordsTable({
               const isSelected = selected?.has(row.signWordId);
               return (
                 <TableRow hover key={row.signWordId || idx} selected={isSelected}>
-                  <TableCell padding="checkbox">
+                  {/* <TableCell padding="checkbox">
                     <Checkbox
                       checked={isSelected}
                       onChange={(event) => {
@@ -118,7 +145,7 @@ export function SignwordsTable({
                         }
                       }}
                     />
-                  </TableCell>
+                  </TableCell> */}
                   <TableCell>
                     <Link href={`/dashboard/signwords/${row.signWordId}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                       <Typography variant="subtitle2">{row.word}</Typography>
@@ -149,11 +176,18 @@ export function SignwordsTable({
       <TablePagination
         component="div"
         count={count}
-        onPageChange={noop}
-        onRowsPerPageChange={noop}
-        page={page}
         rowsPerPage={rowsPerPage}
-        rowsPerPageOptions={[5, 10, 25]}
+        onPageChange={(event, newPage) => {
+          onCurrentPageChange(newPage);
+        }}
+        page={page}
+        rowsPerPageOptions={[]}
+        labelDisplayedRows={({ from, to, count }) => {
+
+          // Example 2 (Vietnamese Translation): "Từ 1 đến 5 trên tổng số 30"
+          // Handle 'of' text when count is -1 (unknown) if needed, otherwise use count
+          return `Từ ${from} đến ${to} trên tổng số ${count !== -1 ? count : 'nhiều'}`;
+        }}
       />
     </Card>
   );
