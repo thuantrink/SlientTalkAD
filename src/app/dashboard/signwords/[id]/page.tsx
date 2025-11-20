@@ -7,43 +7,20 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import api from '@/utils/axiosConfig';
 
-// Reuse the type exported from the client component for consistency
 type SignWordItem = _SignWordItem;
 
-const signwords: SignWordItem[] = [
-  {
-    signWordId: 'SW-001',
-    word: 'Xin chào',
-    definition: 'Lời chào hỏi thông thường.',
-    wordType: 'Cụm từ nghi vấn',
-    exampleSentence: 'Xin chào mọi người!',
-    category: 'Câu hỏi',
-    signWordUri: 'https://www.w3schools.com/html/mov_bbb.mp4',
-    isActive: true,
-    createdAt: '2025-10-01 09:00',
-    updatedAt: '2025-10-15 10:30',
-  },
-];
-
-interface Props {
-  params: any;
-}
-interface PageProps {
-  params: {
-    id: string;
-  };
-}
-
-export default function Page({ params }: PageProps) {
+export default function Page({ params }: { params: { id: string } }) {
   const { id } = params;
-  //const item = signwords.find((i) => i.signWordId === id);
-  const [item, setItem] = React.useState(null);
+
+  const [item, setItem] = React.useState<SignWordItem | null>(null);
+
   React.useEffect(() => {
     const fetchSignWord = async () => {
       try {
         const res = await api.get(`/api/admin/signwords/${id}`);
 
-        setItem(res);
+        // Important: axios stores result in res.data, not res
+        setItem(res.data);
 
       } catch (err) {
         console.log("Get Signwords thất bại", err);
