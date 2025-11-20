@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import Avatar from '@mui/material/Avatar';
@@ -8,7 +8,8 @@ import LinearProgress from '@mui/material/LinearProgress';
 import Stack from '@mui/material/Stack';
 import type { SxProps } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
-import { UsersIcon } from '@phosphor-icons/react/dist/ssr/users';
+// import { UsersIcon } from '@phosphor-icons/react/dist/ssr/users';
+import { Users } from '@phosphor-icons/react/dist/ssr/Users';
 import { fetchDashboardData } from '@/service/dashboard';
 
 export interface TasksProgressProps {
@@ -17,18 +18,18 @@ export interface TasksProgressProps {
 }
 
 export function TotalAccessToday({ value, sx }: TasksProgressProps): React.JSX.Element {
-    const [totalAccessToday, setTotalAccessToday] = useState<string>('0');
-    const [loading, setLoading] = useState<boolean>(true);
+  const [totalAccessToday, setTotalAccessToday] = useState<string>('0');
+  const [loading, setLoading] = useState<boolean>(true);
 
-      useEffect(() => {
-              fetchDashboardData()
-                .then((data) => {
-                  const accessValue = data.totalAccessToday.toString();
-                    setTotalAccessToday(accessValue);
-                })
-                .catch((err) => console.error(err))
-                .finally(() => setLoading(false));
-            }, []);    
+  useEffect(() => {
+    fetchDashboardData()
+      .then((data) => {
+        const accessValue = data.totalAccessToday.toString();
+        setTotalAccessToday(accessValue);
+      })
+      .catch((err) => console.error(err))
+      .finally(() => setLoading(false));
+  }, []);
   return (
     <Card sx={sx}>
       <CardContent>
@@ -41,7 +42,8 @@ export function TotalAccessToday({ value, sx }: TasksProgressProps): React.JSX.E
               <Typography variant="h4">{loading ? 'Đang tải...' : totalAccessToday}</Typography>
             </Stack>
             <Avatar sx={{ backgroundColor: 'red', height: '56px', width: '56px' }}>
-              <UsersIcon fontSize="var(--icon-fontSize-lg)" />
+              {/* <UsersIcon fontSize="var(--icon-fontSize-lg)" /> */}
+              <Users size={32} />
             </Avatar>
           </Stack>
           {/* <div>

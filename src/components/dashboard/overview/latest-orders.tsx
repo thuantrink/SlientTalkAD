@@ -45,7 +45,7 @@ export function LatestOrders({ sx }: LatestOrdersProps): React.JSX.Element {
 
   return (
     <Card sx={sx}>
-      <CardHeader title="Thanh toán Gói Đăng Ký gần nhất" />
+      <CardHeader title="Danh sách thanh toán gần nhất" />
       <Divider />
 
       <Box sx={{ overflowX: 'auto' }}>
@@ -76,7 +76,7 @@ export function LatestOrders({ sx }: LatestOrdersProps): React.JSX.Element {
                     <Button
                       variant="outlined"
                       size="small"
-                      href={`/api/admin/payments/${item.id}`}
+                      href={`/dashboard/payments/${item.id}`}
                     >
                       Chi tiết
                     </Button>
