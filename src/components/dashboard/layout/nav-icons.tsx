@@ -5,6 +5,7 @@ import { PlugsConnectedIcon } from '@phosphor-icons/react/dist/ssr/PlugsConnecte
 import { UserIcon } from '@phosphor-icons/react/dist/ssr/User';
 import { HandPalmIcon } from '@phosphor-icons/react/dist/ssr/HandPalm';
 import { UsersIcon } from '@phosphor-icons/react/dist/ssr/Users';
+import { CoinsIcon } from '@phosphor-icons/react/dist/ssr/Coins';
 import { XSquare } from '@phosphor-icons/react/dist/ssr/XSquare';
 
 export const navIcons = { 
@@ -15,5 +16,5 @@ export const navIcons = {
   user: UserIcon,
   users: UsersIcon,
   'signwords': HandPalmIcon,
-  'payments': HandPalmIcon,
+  'payments': CoinsIcon,
 } as Record<string, Icon>;
