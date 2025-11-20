@@ -17,11 +17,24 @@ import { usePopover } from '@/hooks/use-popover';
 import { MobileNav } from './mobile-nav';
 import { UserPopover } from './user-popover';
 import { SignOutIcon } from '@phosphor-icons/react';
+import { useRouter } from "next/navigation";
+import { useUser } from "@/hooks/use-user";
 
 export function MainNav(): React.JSX.Element {
   const [openNav, setOpenNav] = React.useState<boolean>(false);
 
   const userPopover = usePopover<HTMLDivElement>();
+
+  const router = useRouter();
+  const { setUser } = useUser();
+
+  const handleSignOut = () => {
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+
+    setUser?.(null);
+    router.push('/auth/sign-in');
+  }
 
   return (
     <React.Fragment>
@@ -75,7 +88,7 @@ export function MainNav(): React.JSX.Element {
               sx={{ cursor: 'pointer' }}
             /> */}
      
-            <IconButton onClick={() => console.log("logout clicked")}>
+            <IconButton onClick={handleSignOut}>
               <SignOutIcon fontSize="var(--icon-fontSize-md)" />
             </IconButton>
 
