@@ -116,10 +116,10 @@ export function CustomersTable({
                   <TableCell>{row.email}</TableCell>
                   <TableCell>
                     <Link href={`/dashboard/customers/${row.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-                      <Typography variant="subtitle2">{row.name}</Typography>
+                      <Typography variant="subtitle2">{row.name ?? '_'}</Typography>
                     </Link>
                   </TableCell>
-                  <TableCell>{row.phone}</TableCell>
+                  <TableCell>{row.phone ?? '_'}</TableCell>
                   <TableCell align="right">
                     <Link href={`/dashboard/customers/${row.id}`}>
                       <Button variant="outlined" size="small">Chi tiết</Button>
