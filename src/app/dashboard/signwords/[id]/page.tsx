@@ -54,7 +54,6 @@ export default function Page({ params }: PageProps) {
 
   }, [id]);
 
-  console.log(item);
   if (!item) {
     return (
       <Stack spacing={3}>

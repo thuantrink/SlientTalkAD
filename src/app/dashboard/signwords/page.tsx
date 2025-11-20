@@ -16,6 +16,7 @@ import type { SignWord } from '@/components/dashboard/signword/signwords-table';
 
 import { PlusIcon } from '@phosphor-icons/react/dist/ssr/Plus';
 import api from '@/utils/axiosConfig';
+import AddSignwordModal from '@/components/dashboard/signword/add-signword-modal';
 
 export default function Page(): React.JSX.Element {
   const [signWords, setSignWords] = React.useState([]);
@@ -28,15 +29,14 @@ export default function Page(): React.JSX.Element {
   const [totalPages, setTotalPages] = React.useState(0);
   const [wordTypeFilter, setWordTypeFilter] = React.useState<string>('Tất cả');
   const [categoryFilter, setCategoryFilter] = React.useState<string>('Tất cả');
+  const [openAddModal, setOpenAddModal] = React.useState(false);
 
   const handleSortChange = (field: string) => {
     if (sortBy === field) setSortBy(`${field}_desc`);
     else setSortBy(field);
   };
 
-  React.useEffect(() => {
-    console.log(currentPage);
-  }, [currentPage]);
+
 
   React.useEffect(() => {
     const fetchSignWords = async () => {
@@ -74,10 +74,14 @@ export default function Page(): React.JSX.Element {
 
   return (
     <Stack spacing={3}>
-      <Stack spacing={1} sx={{ flex: '1 1 auto' }}>
+      <Stack spacing={1} sx={{ flex: '1 1 auto', justifyContent: 'space-between', flexDirection: 'row' }}>
         <Typography variant="h4">Ngôn ngữ ký hiệu</Typography>
         <div>
-          <Button startIcon={<PlusIcon fontSize="var(--icon-fontSize-md)" />} variant="contained">
+          <Button
+            startIcon={<PlusIcon fontSize="var(--icon-fontSize-md)" />}
+            variant="contained"
+            onClick={() => setOpenAddModal((prev) => !prev)}
+          >
             Thêm từ mới
           </Button>
         </div>
@@ -103,6 +107,13 @@ export default function Page(): React.JSX.Element {
         sortBy={sortBy}
         onSortChange={handleSortChange}
         onCurrentPageChange={(newPage) => setCurrentPage(newPage + 1)}
+      />
+      <AddSignwordModal
+        open={openAddModal}
+        onClose={() => setOpenAddModal(false)}
+        onCreated={() => {
+          setCurrentPage(1); 
+        }}
       />
     </Stack>
   );

@@ -33,7 +33,6 @@ const defaultValues = { email: 'sofia@devias.io', password: 'Secret1' } satisfie
 
 export function SignInForm(): React.JSX.Element {
   const router = useRouter();
-  // ✅ LẤY từ context ở top-level component (KHÔNG trong callback)
   const { checkSession, setUser } = useUser();
 
   const [showPassword, setShowPassword] = React.useState<boolean>();

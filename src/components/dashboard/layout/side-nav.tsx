@@ -85,7 +85,7 @@ export function SideNav(): React.JSX.Element {
             src="/assets/logo.svg"
             alt="Logo"
             sx={{
-              height: 42,
+              height: 35,
               width: 'auto',
             }}
           />
