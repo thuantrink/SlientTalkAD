@@ -68,7 +68,7 @@ export default function Page(): React.JSX.Element {
           sx={{ height: '100%' }}
         />
       </Grid>
-      <Grid
+      {/* <Grid
         size={{
           lg: 4,
           md: 6,
@@ -76,7 +76,7 @@ export default function Page(): React.JSX.Element {
         }}
       >
         <Traffic chartSeries={[63, 15, 22]} labels={['Desktop', 'Tablet', 'Phone']} sx={{ height: '100%' }} />
-      </Grid>
+      </Grid> */}
       <Grid
         size={{
           lg: 4,
