@@ -1,6 +1,7 @@
 'use client';
 
 import * as React from 'react';
+import { useEffect, useState } from 'react';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
@@ -12,36 +13,75 @@ import type { SxProps } from '@mui/material/styles';
 import { ArrowClockwiseIcon } from '@phosphor-icons/react/dist/ssr/ArrowClockwise';
 import { ArrowRightIcon } from '@phosphor-icons/react/dist/ssr/ArrowRight';
 import type { ApexOptions } from 'apexcharts';
+import { fetchDashboardData } from '@/service/dashboard';
+
 
 import { Chart } from '@/components/core/chart';
 
 export interface SalesProps {
-  chartSeries: { name: string; data: number[] }[];
   sx?: SxProps;
 }
 
-export function Sales({ chartSeries, sx }: SalesProps): React.JSX.Element {
+export function Sales({ sx }: SalesProps): React.JSX.Element {
+  const [chartSeries, setChartSeries] = useState<{ name: string; data: number[] }[]>([]);
   const chartOptions = useChartOptions();
+
+  useEffect(() => {
+    async function load() {
+      try {
+        const data = await fetchDashboardData();
+
+        // API trả đúng 12 tháng nên gán trực tiếp
+        setChartSeries([
+          {
+            name: 'Doanh số theo tháng',
+            data: data.subcriptionThisYear
+          }
+        ]);
+      } catch (error) {
+        console.error('Lỗi khi tải dashboard:', error);
+      }
+    }
+
+    load();
+  }, []);
 
   return (
     <Card sx={sx}>
       <CardHeader
-        action={
-          <Button color="inherit" size="small" startIcon={<ArrowClockwiseIcon fontSize="var(--icon-fontSize-md)" />}>
-            Sync
-          </Button>
-        }
-        title="Sales"
+        // action={
+        //   <Button
+        //     color="inherit"
+        //     size="small"
+        //     startIcon={<ArrowClockwiseIcon fontSize="var(--icon-fontSize-md)" />}
+        //   >
+        //     Đồng bộ
+        //   </Button>
+        // }
+        title="Doanh số theo tháng"
       />
+
       <CardContent>
-        <Chart height={350} options={chartOptions} series={chartSeries} type="bar" width="100%" />
+        <Chart
+          height={350}
+          options={chartOptions}
+          series={chartSeries}
+          type="bar"
+          width="100%"
+        />
       </CardContent>
+
       <Divider />
-      <CardActions sx={{ justifyContent: 'flex-end' }}>
-        <Button color="inherit" endIcon={<ArrowRightIcon fontSize="var(--icon-fontSize-md)" />} size="small">
+
+      {/* <CardActions sx={{ justifyContent: 'flex-end' }}>
+        <Button
+          color="inherit"
+          endIcon={<ArrowRightIcon fontSize="var(--icon-fontSize-md)" />}
+          size="small"
+        >
           Overview
         </Button>
-      </CardActions>
+      </CardActions> */}
     </Card>
   );
 }
@@ -58,7 +98,7 @@ function useChartOptions(): ApexOptions {
       borderColor: theme.palette.divider,
       strokeDashArray: 2,
       xaxis: { lines: { show: false } },
-      yaxis: { lines: { show: true } },
+      yaxis: { lines: { show: true } }
     },
     legend: { show: false },
     plotOptions: { bar: { columnWidth: '40px' } },
@@ -67,15 +107,15 @@ function useChartOptions(): ApexOptions {
     xaxis: {
       axisBorder: { color: theme.palette.divider, show: true },
       axisTicks: { color: theme.palette.divider, show: true },
-      categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-      labels: { offsetY: 5, style: { colors: theme.palette.text.secondary } },
+      categories: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'],
+      labels: { offsetY: 5, style: { colors: theme.palette.text.secondary } }
     },
     yaxis: {
       labels: {
-        formatter: (value) => (value > 0 ? `${value}K` : `${value}`),
+        formatter: (value) => (value > 0 ? `${value}` : `${value}`), // bạn có thể chỉnh nếu muốn
         offsetX: -10,
-        style: { colors: theme.palette.text.secondary },
-      },
-    },
+        style: { colors: theme.palette.text.secondary }
+      }
+    }
   };
 }

@@ -1,10 +1,12 @@
+'use client';
+
 import * as React from 'react';
+import { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardHeader from '@mui/material/CardHeader';
-import Chip from '@mui/material/Chip';
 import Divider from '@mui/material/Divider';
 import type { SxProps } from '@mui/material/styles';
 import Table from '@mui/material/Table';
@@ -15,60 +17,79 @@ import TableRow from '@mui/material/TableRow';
 import { ArrowRightIcon } from '@phosphor-icons/react/dist/ssr/ArrowRight';
 import dayjs from 'dayjs';
 
-const statusMap = {
-  pending: { label: 'Pending', color: 'warning' },
-  delivered: { label: 'Delivered', color: 'success' },
-  refunded: { label: 'Refunded', color: 'error' },
-} as const;
-
-export interface Order {
-  id: string;
-  customer: { name: string };
-  amount: number;
-  status: 'pending' | 'delivered' | 'refunded';
-  createdAt: Date;
-}
+import { fetchDashboardData } from '@/service/dashboard';
 
 export interface LatestOrdersProps {
-  orders?: Order[];
   sx?: SxProps;
 }
 
-export function LatestOrders({ orders = [], sx }: LatestOrdersProps): React.JSX.Element {
+export function LatestOrders({ sx }: LatestOrdersProps): React.JSX.Element {
+  const [orders, setOrders] = useState<
+    { id: string; userEmail: string; date: string }[]
+  >([]);
+
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function load() {
+      try {
+        const data = await fetchDashboardData();
+        setOrders(data.lastestSubcriptions);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    load();
+  }, []);
+
   return (
     <Card sx={sx}>
-      <CardHeader title="Latest orders" />
+      <CardHeader title="Thanh toán Gói Đăng Ký gần nhất" />
       <Divider />
+
       <Box sx={{ overflowX: 'auto' }}>
-        <Table sx={{ minWidth: 800 }}>
+        <Table sx={{ minWidth: 200 }}>
           <TableHead>
             <TableRow>
-              <TableCell>Order</TableCell>
-              <TableCell>Customer</TableCell>
-              <TableCell sortDirection="desc">Date</TableCell>
-              <TableCell>Status</TableCell>
+              <TableCell>Địa chỉ Email</TableCell>
+              <TableCell>Ngày đăng ký</TableCell>
+              <TableCell>Thao tác</TableCell> {/* thêm cột thao tác */}
             </TableRow>
           </TableHead>
-          <TableBody>
-            {orders.map((order) => {
-              const { label, color } = statusMap[order.status] ?? { label: 'Unknown', color: 'default' };
 
-              return (
-                <TableRow hover key={order.id}>
-                  <TableCell>{order.id}</TableCell>
-                  <TableCell>{order.customer.name}</TableCell>
-                  <TableCell>{dayjs(order.createdAt).format('MMM D, YYYY')}</TableCell>
+          <TableBody>
+            {loading ? (
+              <TableRow>
+                <TableCell colSpan={3}>Đang tải...</TableCell>
+              </TableRow>
+            ) : (
+              orders.map((item) => (
+                <TableRow hover key={item.id}>
+                  <TableCell>{item.userEmail}</TableCell>
                   <TableCell>
-                    <Chip color={color} label={label} size="small" />
+                    {dayjs(item.date).format('DD/MM/YYYY')}
+                  </TableCell>
+
+                  {/* Cột Thao tác */}
+                  <TableCell>
+                    <Button
+                      variant="outlined"
+                      size="small"
+                      href={`/api/admin/payments/${item.id}`}
+                    >
+                      Chi tiết
+                    </Button>
                   </TableCell>
                 </TableRow>
-              );
-            })}
+              ))
+            )}
           </TableBody>
         </Table>
       </Box>
+
       <Divider />
-      <CardActions sx={{ justifyContent: 'flex-end' }}>
+      {/* <CardActions sx={{ justifyContent: 'flex-end' }}>
         <Button
           color="inherit"
           endIcon={<ArrowRightIcon fontSize="var(--icon-fontSize-md)" />}
@@ -77,7 +98,7 @@ export function LatestOrders({ orders = [], sx }: LatestOrdersProps): React.JSX.
         >
           View all
         </Button>
-      </CardActions>
+      </CardActions> */}
     </Card>
   );
 }
