@@ -15,7 +15,7 @@ import { z as zod } from 'zod';
 
 import { authClient } from '@/lib/auth/client';
 
-const schema = zod.object({ email: zod.string().min(1, { message: 'Email is required' }).email() });
+const schema = zod.object({ email: zod.string().min(1, { message: 'Yêu cầu nhập Email.' }).email() });
 
 type Values = zod.infer<typeof schema>;
 
@@ -52,7 +52,7 @@ export function ResetPasswordForm(): React.JSX.Element {
 
   return (
     <Stack spacing={4}>
-      <Typography variant="h5">Reset password</Typography>
+      <Typography variant="h5">Lấy lại mật khẩu</Typography>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack spacing={2}>
           <Controller
@@ -60,7 +60,7 @@ export function ResetPasswordForm(): React.JSX.Element {
             name="email"
             render={({ field }) => (
               <FormControl error={Boolean(errors.email)}>
-                <InputLabel>Email address</InputLabel>
+                <InputLabel>Địa chỉ Email</InputLabel>
                 <OutlinedInput {...field} label="Email address" type="email" />
                 {errors.email ? <FormHelperText>{errors.email.message}</FormHelperText> : null}
               </FormControl>
@@ -68,7 +68,7 @@ export function ResetPasswordForm(): React.JSX.Element {
           />
           {errors.root ? <Alert color="error">{errors.root.message}</Alert> : null}
           <Button disabled={isPending} type="submit" variant="contained">
-            Send recovery link
+            Gửi liên kết đặt lại mật khẩu
           </Button>
         </Stack>
       </form>

@@ -5,7 +5,7 @@ import type { User } from '@/types/user';
 
 const API_ROOT =
   process.env.NEXT_PUBLIC_API_ROOT ||
-  'https://transphysical-charlotte-doomfully.ngrok-free.dev';
+  'https://api20251116200831-djh7b7e4dseec6a4.southeastasia-01.azurewebsites.net';
 
 export interface SignInWithPasswordParams {
   email: string;
@@ -32,7 +32,7 @@ export class AuthClient {
       return {};
     } catch (err: any) {
       console.error('Login error:', err);
-      return { error: err.response?.data?.message || 'Login failed' };
+      return { error: err.response?.data?.message || 'Đăng nhập thất bại.' };
     }
   }
 
@@ -48,7 +48,7 @@ export class AuthClient {
       return { data: res.data };
     } catch (err: any) {
       console.error('GetUser error:', err);
-      return { data: null, error: err.response?.data?.message || 'Unauthorized' };
+      return { data: null, error: err.response?.data?.message || 'Không được cấp quyền.' };
     }
   }
 
@@ -71,7 +71,7 @@ export class AuthClient {
       return {};
     } catch (err: any) {
       console.error('SignUp error:', err);
-      return { error: err.response?.data?.message || 'Sign up failed' };
+      return { error: err.response?.data?.message || 'Đăng ký thất bại.' };
     }
   }
 
@@ -81,7 +81,7 @@ export class AuthClient {
       return {};
     } catch (err: any) {
       console.error('ResetPassword error:', err);
-      return { error: err.response?.data?.message || 'Reset password failed' };
+      return { error: err.response?.data?.message || 'Lấy lại mật khẩu thất bại.' };
     }
   }
 }
