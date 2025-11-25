@@ -69,9 +69,7 @@ export function PaymentsTable({
       <Box sx={{ overflowX: 'auto' }}>
         <Table sx={{ minWidth: '800px' }}>
           <TableHead>
-            <TableRow>
-
-              {/* <TableCell padding="checkbox">
+            <TableRow>{/* <TableCell padding="checkbox">
                 <Checkbox
                   checked={selectedAll}
                   indeterminate={selectedSome}
@@ -83,24 +81,15 @@ export function PaymentsTable({
                     }
                   }}
                 />
-              </TableCell> */}
-              <TableCell>STT</TableCell>
-              <TableCell>Email</TableCell>
-              {/* <TableCell>Tên</TableCell>
-              <TableCell>Số điện thoại</TableCell> */}
-              <TableCell>Ngày thanh toán</TableCell>
-              <TableCell>Trạng thái</TableCell>
-              <TableCell align="right">Thao tác</TableCell>
-            </TableRow>
+              </TableCell> */}<TableCell>STT</TableCell><TableCell>Email</TableCell>{/* <TableCell>Tên</TableCell>
+              <TableCell>Số điện thoại</TableCell> */}<TableCell>Ngày thanh toán</TableCell><TableCell>Trạng thái</TableCell><TableCell align="right">Thao tác</TableCell></TableRow>
           </TableHead>
           <TableBody>
             {rows.map((row, index) => {
               const isSelected = selected?.has(row.id);
 
               return (
-                <TableRow hover key={row.id} selected={isSelected}>
-
-                  {/* <TableCell padding="checkbox">
+                <TableRow hover key={row.id} selected={isSelected}>{/* <TableCell padding="checkbox">
                     <Checkbox
                       checked={isSelected}
                       onChange={(event) => {
@@ -111,32 +100,8 @@ export function PaymentsTable({
                         }
                       }}
                     />
-                  </TableCell> */}
-                  <TableCell>{page * rowsPerPage + index + 1}</TableCell>
-                  <TableCell>
-                    <Link href={`/dashboard/payments/${row.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-                      <Typography variant="subtitle2">{row.email}</Typography>
-                    </Link>
-                  </TableCell>
-                  {/* <TableCell>{row.name}</TableCell>
-                  <TableCell>{row.phone}</TableCell> */}
-                  <TableCell>
-                    {dayjs(row.paymentDate * 1000).format('YYYY-MM-DD HH:mm')}
-                  </TableCell>
-                  <TableCell>
-                    {row.status ? (
-                      <Chip label="Thành công" color="success" size="small" />
-                    ) : (
-                      <Chip label="Thất bại" color="error" size="small" />
-                    )}
-                  </TableCell>
-
-                  <TableCell align="right">
-                    <Link href={`/dashboard/payments/${row.paymentId}`}>
-                      <Button variant="outlined" size="small">Chi tiết</Button>
-                    </Link>
-                  </TableCell>
-                </TableRow>
+                  </TableCell> */}<TableCell>{page * rowsPerPage + index + 1}</TableCell><TableCell><Link href={`/dashboard/payments/${row.id}`} style={{ textDecoration: 'none', color: 'inherit' }}><Typography variant="subtitle2">{row.email}</Typography></Link></TableCell>{/* <TableCell>{row.name}</TableCell>
+                  <TableCell>{row.phone}</TableCell> */}<TableCell>{dayjs(Number(row.paymentDate) * 1000).format('YYYY-MM-DD HH:mm')}</TableCell><TableCell>{row.status ? <Chip label="Thành công" color="success" size="small" /> : <Chip label="Thất bại" color="error" size="small" />}</TableCell><TableCell align="right"><Link href={`/dashboard/payments/${row.paymentId}`}><Button variant="outlined" size="small">Chi tiết</Button></Link></TableCell></TableRow>
               );
             })}
           </TableBody>

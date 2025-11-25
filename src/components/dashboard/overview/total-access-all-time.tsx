@@ -17,23 +17,30 @@ export interface TasksProgressProps {
 }
 
 export function TotalAccessAllTime({ value, sx }: TasksProgressProps): React.JSX.Element {
+      const [isMounted, setIsMounted] = React.useState(false);
       const [totalAccessAllTime, setTotalAccessAllTime] = useState<string>('0');
       const [loading, setLoading] = useState<boolean>(true);
 
       useEffect(() => {
-              fetchDashboardData()
-                .then((data) => {
-                  const accessValue = data.totalAccessAllTime.toString();
-                    setTotalAccessAllTime(accessValue);
-                })
-                .catch((err) => console.error(err))
-                .finally(() => setLoading(false));
-            }, []);
+        setIsMounted(true);
+      }, []);
+
+      useEffect(() => {
+        if (!isMounted) return;
+
+        fetchDashboardData()
+          .then((data) => {
+            const accessValue = data.totalAccessAllTime.toString();
+            setTotalAccessAllTime(accessValue);
+          })
+          .catch((err) => console.error(err))
+          .finally(() => setLoading(false));
+      }, [isMounted]);
   return (
     <Card sx={sx}>
       <CardContent>
-        <Stack spacing={2}>
-          <Stack direction="row" sx={{ alignItems: 'flex-start', justifyContent: 'space-between' }} spacing={3}>
+        <Stack suppressHydrationWarning spacing={2}>
+          <Stack suppressHydrationWarning direction="row" sx={{ alignItems: 'flex-start', justifyContent: 'space-between' }} spacing={3}>
             <Stack spacing={1}>
               <Typography color="text.secondary" gutterBottom variant="overline">
                 Tổng số lượt truy cập

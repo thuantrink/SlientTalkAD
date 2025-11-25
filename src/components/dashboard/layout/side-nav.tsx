@@ -23,6 +23,7 @@ export function SideNav({ isMobile = false, onNavigate }: SideNavProps): React.J
 
   return (
     <Box
+      suppressHydrationWarning
       sx={{
         '--SideNav-color': 'var(--mui-palette-common-white)',
         '--NavItem-color': 'rgba(255, 255, 255, 0.9)',
@@ -60,7 +61,7 @@ export function SideNav({ isMobile = false, onNavigate }: SideNavProps): React.J
       }}
     >
       {/* Header */}
-      <Stack spacing={2} sx={{ p: 3, pl: 4, pr: 2 }}>
+      <Stack suppressHydrationWarning spacing={2} sx={{ p: 3, pl: 4, pr: 2 }}>
         <Box
           component={RouterLink}
           href={paths.home}
@@ -83,6 +84,7 @@ export function SideNav({ isMobile = false, onNavigate }: SideNavProps): React.J
       </Stack>
 
       <Box
+        suppressHydrationWarning
         component="nav"
         sx={{
           flex: '1 1 auto',
@@ -93,6 +95,7 @@ export function SideNav({ isMobile = false, onNavigate }: SideNavProps): React.J
         }}
       >
         <Stack
+          suppressHydrationWarning
           component="ul"
           spacing={1}
           sx={{ listStyle: 'none', m: 0, p: 0, width: '100%' }}

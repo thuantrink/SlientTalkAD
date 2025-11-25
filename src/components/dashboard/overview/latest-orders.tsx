@@ -24,6 +24,7 @@ export interface LatestOrdersProps {
 }
 
 export function LatestOrders({ sx }: LatestOrdersProps): React.JSX.Element {
+  const [isMounted, setIsMounted] = React.useState(false);
   const [orders, setOrders] = useState<
     { id: string; userEmail: string; date: string }[]
   >([]);
@@ -31,6 +32,12 @@ export function LatestOrders({ sx }: LatestOrdersProps): React.JSX.Element {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!isMounted) return;
+
     async function load() {
       try {
         const data = await fetchDashboardData();
@@ -41,47 +48,25 @@ export function LatestOrders({ sx }: LatestOrdersProps): React.JSX.Element {
     }
 
     load();
-  }, []);
+  }, [isMounted]);
 
   return (
-    <Card sx={sx}>
+    <Card suppressHydrationWarning sx={sx}>
       <CardHeader title="Danh sách thanh toán gần nhất" />
       <Divider />
 
       <Box sx={{ overflowX: 'auto' }}>
         <Table sx={{ minWidth: 200 }}>
           <TableHead>
-            <TableRow>
-              <TableCell>Địa chỉ Email</TableCell>
-              <TableCell>Ngày đăng ký</TableCell>
-              <TableCell>Thao tác</TableCell> {/* thêm cột thao tác */}
-            </TableRow>
+            <TableRow><TableCell>Địa chỉ Email</TableCell><TableCell>Ngày đăng ký</TableCell><TableCell>Thao tác</TableCell></TableRow>
           </TableHead>
 
           <TableBody>
             {loading ? (
-              <TableRow>
-                <TableCell colSpan={3}>Đang tải...</TableCell>
-              </TableRow>
+              <TableRow><TableCell colSpan={3}>Đang tải...</TableCell></TableRow>
             ) : (
               orders.map((item) => (
-                <TableRow hover key={item.id}>
-                  <TableCell>{item.userEmail}</TableCell>
-                  <TableCell>
-                    {dayjs(item.date).format('DD/MM/YYYY')}
-                  </TableCell>
-
-                  {/* Cột Thao tác */}
-                  <TableCell>
-                    <Button
-                      variant="outlined"
-                      size="small"
-                      href={`/dashboard/payments/${item.id}`}
-                    >
-                      Chi tiết
-                    </Button>
-                  </TableCell>
-                </TableRow>
+                <TableRow hover key={item.id}><TableCell>{item.userEmail}</TableCell><TableCell>{dayjs(item.date).format('DD/MM/YYYY')}</TableCell><TableCell><Button variant="outlined" size="small" href={`/dashboard/payments/${item.id}`}>Chi tiết</Button></TableCell></TableRow>
               ))
             )}
           </TableBody>

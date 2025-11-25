@@ -18,7 +18,7 @@ export const metadata = { title: `Tổng quan | Dashboard | ${config.site.name}`
 
 export default function Page(): React.JSX.Element {
   return (
-    <Grid container spacing={3}>
+    <Grid container spacing={3} suppressHydrationWarning>
       {/* <Grid
         size={{
           lg: 3,

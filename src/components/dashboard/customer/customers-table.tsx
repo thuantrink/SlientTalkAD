@@ -63,8 +63,7 @@ export function CustomersTable({
       <Box sx={{ overflowX: 'auto' }}>
         <Table sx={{ minWidth: '800px' }}>
           <TableHead>
-            <TableRow>
-              {/*
+            <TableRow>{/*
               <TableCell padding="checkbox">
                 <Checkbox
                   checked={selectedAll}
@@ -78,27 +77,14 @@ export function CustomersTable({
                   }}
                 />
               </TableCell>
-              */}
-              <TableCell>
-                STT
-              </TableCell>
-              <TableCell>Email</TableCell>
-              <TableCell>Tên</TableCell>
-              <TableCell>Số điện thoại</TableCell>
-              <TableCell align="right">Thao tác</TableCell>
-            </TableRow>
+              */}<TableCell>STT</TableCell><TableCell>Email</TableCell><TableCell>Tên</TableCell><TableCell>Số điện thoại</TableCell><TableCell align="right">Thao tác</TableCell></TableRow>
           </TableHead>
           <TableBody>
             {rows.map((row, index) => {
               const isSelected = selected?.has(row.id);
 
               return (
-                <TableRow
-                  hover
-                  key={row.id}
-                  selected={isSelected}
-                >
-                  {/*
+                <TableRow hover key={row.id} selected={isSelected}>{/*
                   <TableCell padding="checkbox">
                     <Checkbox
                       checked={isSelected}
@@ -111,21 +97,7 @@ export function CustomersTable({
                       }}
                     />
                   </TableCell>
-                  */}
-                  <TableCell>{page * rowsPerPage + index + 1}</TableCell>
-                  <TableCell>{row.email}</TableCell>
-                  <TableCell>
-                    <Link href={`/dashboard/customers/${row.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-                      <Typography variant="subtitle2">{row.name ?? '_'}</Typography>
-                    </Link>
-                  </TableCell>
-                  <TableCell>{row.phone ?? '_'}</TableCell>
-                  <TableCell align="right">
-                    <Link href={`/dashboard/customers/${row.id}`}>
-                      <Button variant="outlined" size="small">Chi tiết</Button>
-                    </Link>
-                  </TableCell>
-                </TableRow>
+                  */}<TableCell>{page * rowsPerPage + index + 1}</TableCell><TableCell>{row.email}</TableCell><TableCell><Link href={`/dashboard/customers/${row.id}`} style={{ textDecoration: 'none', color: 'inherit' }}><Typography variant="subtitle2">{row.name ?? '_'}</Typography></Link></TableCell><TableCell>{row.phone ?? '_'}</TableCell><TableCell align="right"><Link href={`/dashboard/customers/${row.id}`}><Button variant="outlined" size="small">Chi tiết</Button></Link></TableCell></TableRow>
               );
             })}
           </TableBody>

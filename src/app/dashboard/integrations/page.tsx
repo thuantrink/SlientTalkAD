@@ -9,7 +9,6 @@ import Typography from '@mui/material/Typography';
 import { DownloadIcon } from '@phosphor-icons/react/dist/ssr/Download';
 import { PlusIcon } from '@phosphor-icons/react/dist/ssr/Plus';
 import { UploadIcon } from '@phosphor-icons/react/dist/ssr/Upload';
-import dayjs from 'dayjs';
 
 import { config } from '@/config';
 import { IntegrationCard } from '@/components/dashboard/integrations/integrations-card';
@@ -18,14 +17,14 @@ import { CompaniesFilters } from '@/components/dashboard/integrations/integratio
 
 export const metadata = { title: `Integrations | Dashboard | ${config.site.name}` } satisfies Metadata;
 
-const integrations = [
+const integrations: Integration[] = [
   {
     id: 'INTEG-006',
     title: 'Dropbox',
     description: 'Dropbox is a file hosting service that offers cloud storage, file synchronization, a personal cloud.',
     logo: '/assets/logo-dropbox.png',
     installs: 594,
-    updatedAt: dayjs().subtract(12, 'minute').toDate(),
+    updatedAt: new Date('2025-11-25T10:48:00Z'),
   },
   {
     id: 'INTEG-005',
@@ -33,7 +32,7 @@ const integrations = [
     description: 'Medium is an online publishing platform developed by Evan Williams, and launched in August 2012.',
     logo: '/assets/logo-medium.png',
     installs: 625,
-    updatedAt: dayjs().subtract(43, 'minute').subtract(1, 'hour').toDate(),
+    updatedAt: new Date('2025-11-25T09:17:00Z'),
   },
   {
     id: 'INTEG-004',
@@ -41,7 +40,7 @@ const integrations = [
     description: 'Slack is a cloud-based set of team collaboration tools and services, founded by Stewart Butterfield.',
     logo: '/assets/logo-slack.png',
     installs: 857,
-    updatedAt: dayjs().subtract(50, 'minute').subtract(3, 'hour').toDate(),
+    updatedAt: new Date('2025-11-25T05:30:00Z'),
   },
   {
     id: 'INTEG-003',
@@ -49,7 +48,7 @@ const integrations = [
     description: 'Lyft is an on-demand transportation company based in San Francisco, California.',
     logo: '/assets/logo-lyft.png',
     installs: 406,
-    updatedAt: dayjs().subtract(7, 'minute').subtract(4, 'hour').subtract(1, 'day').toDate(),
+    updatedAt: new Date('2025-11-23T19:53:00Z'),
   },
   {
     id: 'INTEG-002',
@@ -57,7 +56,7 @@ const integrations = [
     description: 'GitHub is a web-based hosting service for version control of code using Git.',
     logo: '/assets/logo-github.png',
     installs: 835,
-    updatedAt: dayjs().subtract(31, 'minute').subtract(4, 'hour').subtract(5, 'day').toDate(),
+    updatedAt: new Date('2025-11-20T19:29:00Z'),
   },
   {
     id: 'INTEG-001',
@@ -65,13 +64,13 @@ const integrations = [
     description: 'Squarespace provides software as a service for website building and hosting. Headquartered in NYC.',
     logo: '/assets/logo-squarespace.png',
     installs: 435,
-    updatedAt: dayjs().subtract(25, 'minute').subtract(6, 'hour').subtract(6, 'day').toDate(),
+    updatedAt: new Date('2025-11-19T12:35:00Z'),
   },
-] satisfies Integration[];
+];
 
 export default function Page(): React.JSX.Element {
   return (
-    <Stack spacing={3}>
+    <Stack spacing={3} suppressHydrationWarning>
       <Stack direction="row" spacing={3}>
         <Stack spacing={1} sx={{ flex: '1 1 auto' }}>
           <Typography variant="h4">Integrations</Typography>
