@@ -16,20 +16,27 @@ export interface TotalProfitProps {
 }
 
 export function TotalProfit({ value, sx }: TotalProfitProps): React.JSX.Element {
+  const [isMounted, setIsMounted] = React.useState(false);
   const [totalProfit, setTotalProfit] = useState<number>(0);
-    const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(true);
 
-    useEffect(() => {
-        fetchDashboardData()
-          .then((data) => {
-            const profitValue = parseFloat(data.totalProfit);
-            if (!isNaN(profitValue)) {
-              setTotalProfit(profitValue);
-            }
-          })
-          .catch((err) => console.error(err))
-          .finally(() => setLoading(false));
-      }, []);
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!isMounted) return;
+
+    fetchDashboardData()
+      .then((data) => {
+        const profitValue = parseFloat(data.totalProfit);
+        if (!isNaN(profitValue)) {
+          setTotalProfit(profitValue);
+        }
+      })
+      .catch((err) => console.error(err))
+      .finally(() => setLoading(false));
+  }, [isMounted]);
 
       const formatCurrency = (amount: number): string => {
       return new Intl.NumberFormat('vi-VN', {
@@ -42,7 +49,7 @@ export function TotalProfit({ value, sx }: TotalProfitProps): React.JSX.Element 
   return (
     <Card sx={sx}>
       <CardContent>
-        <Stack direction="row" sx={{ alignItems: 'flex-start', justifyContent: 'space-between' }} spacing={3}>
+        <Stack suppressHydrationWarning direction="row" sx={{ alignItems: 'flex-start', justifyContent: 'space-between' }} spacing={3}>
           <Stack spacing={1}>
             <Typography color="text.secondary" variant="overline">
               Tổng lợi nhuận

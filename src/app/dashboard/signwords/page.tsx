@@ -71,7 +71,7 @@ export default function Page(): React.JSX.Element {
   //const paginated = signwords.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
 
   return (
-    <Stack spacing={3}>
+    <Stack suppressHydrationWarning spacing={3}>
       <Stack spacing={1} sx={{ flex: '1 1 auto', justifyContent: 'space-between', flexDirection: 'row' }}>
         <Typography variant="h4">Ngôn ngữ ký hiệu</Typography>
         <div>

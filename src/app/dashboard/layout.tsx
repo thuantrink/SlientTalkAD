@@ -88,6 +88,7 @@ export default function DashboardLayout({ children }: LayoutProps) {
         }}
       />
       <Box
+        suppressHydrationWarning
         sx={{
           bgcolor: 'var(--mui-palette-background-default)',
           display: 'flex',
@@ -98,6 +99,7 @@ export default function DashboardLayout({ children }: LayoutProps) {
       >
         <SideNav />
         <Box
+          suppressHydrationWarning
           sx={{
             display: 'flex',
             flex: '1 1 auto',
@@ -107,7 +109,7 @@ export default function DashboardLayout({ children }: LayoutProps) {
         >
           <MainNav />
           <main>
-            <Container maxWidth="xl" sx={{ pt: '16px',pb: '64px' }}>
+            <Container maxWidth="xl" suppressHydrationWarning sx={{ pt: '16px',pb: '64px' }}>
               {children}
             </Container>
           </main>

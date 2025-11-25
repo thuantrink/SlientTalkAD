@@ -23,10 +23,17 @@ export interface SalesProps {
 }
 
 export function Sales({ sx }: SalesProps): React.JSX.Element {
+  const [isMounted, setIsMounted] = React.useState(false);
   const [chartSeries, setChartSeries] = useState<{ name: string; data: number[] }[]>([]);
   const chartOptions = useChartOptions();
 
   useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!isMounted) return;
+
     async function load() {
       try {
         const data = await fetchDashboardData();
@@ -44,10 +51,10 @@ export function Sales({ sx }: SalesProps): React.JSX.Element {
     }
 
     load();
-  }, []);
+  }, [isMounted]);
 
   return (
-    <Card sx={sx}>
+    <Card suppressHydrationWarning sx={sx}>
       <CardHeader
         // action={
         //   <Button

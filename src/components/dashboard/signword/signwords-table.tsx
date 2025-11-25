@@ -81,8 +81,7 @@ export function SignwordsTable({
         {/* <Table sx={{ minWidth: '1200px' }}> */}
         <Table sx={{ minWidth: '100%', }}>
           <TableHead>
-            <TableRow>
-              {/* <TableCell padding="checkbox" sx={{ width: 60 }}>
+            <TableRow>{/* <TableCell padding="checkbox" sx={{ width: 60 }}>
                 <Checkbox
                   checked={selectedAll}
                   indeterminate={selectedSome}
@@ -94,36 +93,19 @@ export function SignwordsTable({
                     }
                   }}
                 />
-              </TableCell> */}
-              <TableCell sx={{ width: 220, cursor: "pointer" }}
-              // onClick={() => onSortChange?.('name')}
-              >
+              </TableCell> */}<TableCell sx={{ width: 220, cursor: "pointer" }}>
                 <Typography variant="subtitle2" fontWeight={600}>
                   Ký hiệu
-                  {/* {sortBy === 'name' ? '↑' : sortBy === 'name_desc' ? '↓' : ''} */}
                 </Typography>
-              </TableCell>
-              <TableCell sx={{ width: 160, textAlign: 'center', cursor: 'pointer' }}
-              // onClick={() => onSortChange?.('type')}
-              >
+              </TableCell><TableCell sx={{ width: 160, textAlign: 'center', cursor: 'pointer' }}>
                 <Typography variant="subtitle2" fontWeight={600}>
                   Loại từ
-                  {/* {sortBy === 'type' ? '↑' : sortBy === 'type_desc' ? '↓' : ''} */}
                 </Typography>
-              </TableCell>
-              <TableCell sx={{ width: 160, textAlign: 'center', cursor: 'pointer' }}
-              // onClick={() => onSortChange?.('cat')}
-              >
+              </TableCell><TableCell sx={{ width: 160, textAlign: 'center', cursor: 'pointer' }}>
                 <Typography variant="subtitle2" fontWeight={600}>
                   Chủ đề
-                  {/* {sortBy === 'cat' ? '↑' : sortBy === 'cat_desc' ? '↓' : ''} */}
                 </Typography>
-              </TableCell>
-              <TableCell sx={{ width: 160, textAlign: 'center' }}><Typography variant="subtitle2" fontWeight={600}>Trạng thái hoạt động</Typography></TableCell>
-              <TableCell sx={{ width: 160, textAlign: 'center' }}><Typography variant="subtitle2" fontWeight={600}>Ngày tạo</Typography></TableCell>
-              <TableCell sx={{ width: 160, textAlign: 'center' }}><Typography variant="subtitle2" fontWeight={600}>Ngày cập nhật</Typography></TableCell>
-              <TableCell align="right" sx={{ width: 120 }}><Typography variant="subtitle2" fontWeight={600}>Thao tác</Typography></TableCell>
-            </TableRow>
+              </TableCell><TableCell sx={{ width: 160, textAlign: 'center' }}><Typography variant="subtitle2" fontWeight={600}>Trạng thái hoạt động</Typography></TableCell><TableCell sx={{ width: 160, textAlign: 'center' }}><Typography variant="subtitle2" fontWeight={600}>Ngày tạo</Typography></TableCell><TableCell sx={{ width: 160, textAlign: 'center' }}><Typography variant="subtitle2" fontWeight={600}>Ngày cập nhật</Typography></TableCell><TableCell align="right" sx={{ width: 120 }}><Typography variant="subtitle2" fontWeight={600}>Thao tác</Typography></TableCell></TableRow>
           </TableHead>
           <TableBody>
             {rows.filter(row => {
@@ -133,8 +115,7 @@ export function SignwordsTable({
             }).map((row, idx) => {
               const isSelected = selected?.has(row.signWordId);
               return (
-                <TableRow hover key={row.signWordId || idx} selected={isSelected}>
-                  {/* <TableCell padding="checkbox">
+                <TableRow hover key={row.signWordId || idx} selected={isSelected}>{/* <TableCell padding="checkbox">
                     <Checkbox
                       checked={isSelected}
                       onChange={(event) => {
@@ -145,28 +126,20 @@ export function SignwordsTable({
                         }
                       }}
                     />
-                  </TableCell> */}
-                  <TableCell>
+                  </TableCell> */}<TableCell>
                     <Link href={`/dashboard/signwords/${row.signWordId}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                       <Typography variant="subtitle2">{row.word}</Typography>
                     </Link>
-                  </TableCell>
-                  <TableCell align="center"><Typography variant="subtitle2">{row.wordType}</Typography></TableCell>
-                  <TableCell align="center"><Typography variant="subtitle2">{row.category}</Typography></TableCell>
-                  <TableCell align="center">
+                  </TableCell><TableCell align="center"><Typography variant="subtitle2">{row.wordType}</Typography></TableCell><TableCell align="center"><Typography variant="subtitle2">{row.category}</Typography></TableCell><TableCell align="center">
                     <Checkbox
                       checked={row.isActive}
                       disabled
                     />
-                  </TableCell>
-                  <TableCell align="center"><Typography variant="subtitle2">{typeof row.createdAt === 'object' ? dayjs(row.createdAt).format('YYYY-MM-DD HH:mm') : row.createdAt}</Typography></TableCell>
-                  <TableCell align="center"><Typography variant="subtitle2">{typeof row.updatedAt === 'object' ? dayjs(row.updatedAt).format('YYYY-MM-DD HH:mm') : row.updatedAt}</Typography></TableCell>
-                  <TableCell align="right">
+                  </TableCell><TableCell align="center"><Typography variant="subtitle2">{typeof row.createdAt === 'object' ? dayjs(row.createdAt).format('YYYY-MM-DD HH:mm') : row.createdAt}</Typography></TableCell><TableCell align="center"><Typography variant="subtitle2">{typeof row.updatedAt === 'object' ? dayjs(row.updatedAt).format('YYYY-MM-DD HH:mm') : row.updatedAt}</Typography></TableCell><TableCell align="right">
                     <Link href={`/dashboard/signwords/${row.signWordId}`}>
                       <Button variant="outlined" size="small">Chi tiết</Button>
                     </Link>
-                  </TableCell>
-                </TableRow>
+                  </TableCell></TableRow>
               );
             })}
           </TableBody>

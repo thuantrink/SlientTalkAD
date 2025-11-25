@@ -51,7 +51,7 @@ export default function Page(): React.JSX.Element {
   //  const paginatedCustomers = applyPagination(customers, page, rowsPerPage);
 
   return (
-    <Stack spacing={3}>
+    <Stack suppressHydrationWarning spacing={3}>
       <Stack direction="row" spacing={3}>
         <Stack spacing={1} sx={{ flex: '1 1 auto' }}>
           <Typography variant="h4">Người dùng</Typography>
