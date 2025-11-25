@@ -72,6 +72,11 @@ export default [
 			"react/prop-types": "off",
 		},
 	},
+	{
+		settings: {
+			"import/ignore": ["zod"],
+		},
+	},
 	...compat.extends("plugin:react-hooks/recommended"),
 	...compat.config(pluginNext.configs.recommended),
 ];

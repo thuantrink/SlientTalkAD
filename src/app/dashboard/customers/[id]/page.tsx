@@ -16,14 +16,10 @@ import dayjs from 'dayjs';
 
 import api from '@/utils/axiosConfig';
 
-interface Props {
-  params: { id: string; };
-}
-
 export default function Page({ params }: { params: { id: string; }; }): React.JSX.Element {
   const { id } = params;
 
-  const [user, setUser] = React.useState<any>(null);
+  const [user, setUser] = React.useState(null);
   const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
@@ -31,8 +27,8 @@ export default function Page({ params }: { params: { id: string; }; }): React.JS
       try {
         const res = await api.get(`/api/admin/users/${id}`);
         setUser(res.data);
-      } catch (err) {
-        console.log("Get user thất bại", err);
+      } catch (error) {
+        console.log("Get user thất bại", error);
       } finally {
         setLoading(false);
       }
