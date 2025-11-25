@@ -19,7 +19,7 @@ import api from '@/utils/axiosConfig';
 export default function Page({ params }: { params: { id: string; }; }): React.JSX.Element {
   const { id } = params;
 
-  const [user, setUser] = React.useState<any>(null);
+  const [user, setUser] = React.useState(null);
   const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
